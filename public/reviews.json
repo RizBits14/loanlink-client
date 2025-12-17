@@ -1,0 +1,98 @@
+[
+  {
+    "id": "1",
+    "user_email": "samuel.jones@example.com",
+    "userName": "Samuel Jones",
+    "loan_amount": 500,
+    "approval_status": "Approved",
+    "ratings": 4.8,
+    "review": "Quick and easy approval process.",
+    "loan_type": "Personal",
+    "request_date": "2024-09-10T11:15:00.000Z",
+    "user_photoURL": "https://randomuser.me/api/portraits/men/1.jpg"
+  },
+  {
+    "id": "2",
+    "user_email": "diana.miller@example.com",
+    "userName": "Diana Miller",
+    "loan_amount": 1500,
+    "approval_status": "Pending",
+    "ratings": 4.2,
+    "review": "Application was simple, waiting for approval.",
+    "loan_type": "Business",
+    "request_date": "2024-09-12T09:30:00.000Z",
+    "user_photoURL": "https://randomuser.me/api/portraits/women/2.jpg"
+  },
+  {
+    "id": "3",
+    "user_email": "oliver.king@example.com",
+    "userName": "Oliver King",
+    "loan_amount": 800,
+    "approval_status": "Denied",
+    "ratings": 3.5,
+    "review": "Denied, but easy process to apply.",
+    "loan_type": "Personal",
+    "request_date": "2024-09-15T14:20:00.000Z",
+    "user_photoURL": "https://randomuser.me/api/portraits/men/3.jpg"
+  },
+  {
+    "id": "4",
+    "user_email": "lucy.scott@example.com",
+    "userName": "Lucy Scott",
+    "loan_amount": 2000,
+    "approval_status": "Approved",
+    "ratings": 4.9,
+    "review": "Fast service and great customer support.",
+    "loan_type": "Home Renovation",
+    "request_date": "2024-09-17T16:45:00.000Z",
+    "user_photoURL": "https://randomuser.me/api/portraits/women/4.jpg"
+  },
+  {
+    "id": "5",
+    "user_email": "michael.reed@example.com",
+    "userName": "Michael Reed",
+    "loan_amount": 1200,
+    "approval_status": "Pending",
+    "ratings": 4.0,
+    "review": "Easy to apply, waiting for approval.",
+    "loan_type": "Car Loan",
+    "request_date": "2024-09-19T13:10:00.000Z",
+    "user_photoURL": "https://randomuser.me/api/portraits/men/5.jpg"
+  },
+  {
+    "id": "6",
+    "user_email": "ella.taylor@example.com",
+    "userName": "Ella Taylor",
+    "loan_amount": 1000,
+    "approval_status": "Approved",
+    "ratings": 4.7,
+    "review": "Very quick approval, funds arrived on time.",
+    "loan_type": "Education",
+    "request_date": "2024-09-22T10:05:00.000Z",
+    "user_photoURL": "https://randomuser.me/api/portraits/women/6.jpg"
+  },
+  {
+    "id": "7",
+    "user_email": "jacob.wilson@example.com",
+    "userName": "Jacob Wilson",
+    "loan_amount": 2500,
+    "approval_status": "Denied",
+    "ratings": 3.0,
+    "review": "Unfortunately denied, but the process was smooth.",
+    "loan_type": "Business",
+    "request_date": "2024-09-24T15:40:00.000Z",
+    "user_photoURL": "https://randomuser.me/api/portraits/men/7.jpg"
+  },
+  {
+    "id": "8",
+    "user_email": "lily.harris@example.com",
+    "userName": "Lily Harris",
+    "loan_amount": 700,
+    "approval_status": "Approved",
+    "ratings": 4.6,
+    "review": "Quick approval and friendly service.",
+    "loan_type": "Personal",
+    "request_date": "2024-09-25T12:30:00.000Z",
+    "user_photoURL": "https://randomuser.me/api/portraits/women/8.jpg"
+  }
+]

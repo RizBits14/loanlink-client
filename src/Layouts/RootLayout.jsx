@@ -6,9 +6,9 @@ const RootLayout = () => {
     return (
         <>
             <Navbar />
-            <main className="min-h-[calc(100vh-200px)]">
+            <div className="mt-1">
                 <Outlet />
-            </main>
+            </div>
             <Footer />
         </>
     );
