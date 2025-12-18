@@ -1,6 +1,7 @@
 import { NavLink } from "react-router";
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion as Motion } from "framer-motion";
+import useHomeLoans from "../Hooks/useHomeLoans";
 
 import banner1 from "../assets/banner/banner1.jpg";
 import banner2 from "../assets/banner/banner2.jpg";
@@ -91,6 +92,8 @@ const Home = () => {
         return () => clearInterval(interval);
     }, []);
 
+    const { data: loans = [], isLoading } = useHomeLoans();
+
     return (
         <div className="space-y-28">
             <section className="relative h-[85vh] overflow-hidden">
@@ -142,7 +145,7 @@ const Home = () => {
                 <Stats></Stats>
             </div>
 
-            <section className="max-w-7xl mx-auto px-6 ">
+            <section className="max-w-7xl mx-auto px-6">
                 <Motion.h2
                     variants={fadeUp}
                     initial="hidden"
@@ -158,33 +161,60 @@ const Home = () => {
                     initial="hidden"
                     whileInView="show"
                     viewport={{ once: true }}
-                    className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8"
+                    className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10"
                 >
-                    {Array.from({ length: 6 }).map((_, i) => (
-                        <Motion.div
-                            key={i}
-                            variants={{ ...fadeUp, ...hoverLift }}
-                            whileHover="hover"
-                            className="bg-base-100 rounded-2xl p-6 relative flex flex-col
-                            shadow-md hover:shadow-xl
-                            transition-all duration-300 ease-out
-                            hover:-translate-y-2 hover:scale-[1.02]
-                            border border-transparent hover:border-primary/30
-                            animate-slide-up"
-                        >
-                            <h3 className="font-semibold text-lg mb-2">
-                                Micro Business Loan
-                            </h3>
-                            <p className="text-sm opacity-80 mb-4">
-                                Flexible financing tailored for entrepreneurs.
-                            </p>
-                            <button className="btn btn-primary btn-sm">
-                                View Details
-                            </button>
-                        </Motion.div>
-                    ))}
+                    {isLoading &&
+                        Array.from({ length: 6 }).map((_, i) => (
+                            <div
+                                key={i}
+                                className="h-80 bg-base-200 rounded-2xl animate-pulse"
+                            />
+                        ))}
+
+                    {!isLoading &&
+                        loans.map((loan) => (
+                            <Motion.div
+                                key={loan._id}
+                                variants={{ ...fadeUp, ...hoverLift }}
+                                whileHover="hover"
+                                className="bg-base-100 rounded-2xl p-8 relative flex flex-col min-h-105
+                    shadow-md hover:shadow-xl
+                    transition-all duration-300 ease-out
+                    hover:-translate-y-2 hover:scale-[1.02]
+                    border border-transparent hover:border-primary/30"
+                            >
+                                <img
+                                    src={loan.image}
+                                    alt={loan.title}
+                                    className="h-48 w-full object-cover rounded-xl mb-5"
+                                />
+
+                                <h3 className="font-semibold text-xl mb-3">
+                                    {loan.title}
+                                </h3>
+
+                                <p className="text-sm opacity-80 mb-4 grow">
+                                    {loan.description}
+                                </p>
+
+                                <p className="text-sm font-medium mb-5">
+                                    Max Loan:{" "}
+                                    <span className="text-primary font-semibold">
+                                        ${loan.maxAmount}
+                                    </span>
+                                </p>
+
+                                <NavLink
+                                    to={`/loans/${loan._id}`}
+                                    className="btn btn-primary btn-sm w-full"
+                                >
+                                    View Details
+                                </NavLink>
+                            </Motion.div>
+                        ))}
                 </Motion.div>
             </section>
+
 
             <section className="max-w-7xl mx-auto px-6">
                 <Motion.h2
