@@ -22,16 +22,46 @@ export const Register = () => {
         return true;
     };
 
+    const saveUserToDB = async (userInfo) => {
+        await fetch("http://localhost:3000/users", {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify(userInfo),
+        });
+    };
+
     const onSubmit = async (data) => {
         try {
             await createUser(data.email, data.password);
             await updateUserProfile(data.name, data.photoURL);
-            Swal.fire({ icon: "success", title: "Account Created", timer: 1500, showConfirmButton: false });
+
+            await saveUserToDB({
+                name: data.name,
+                email: data.email,
+                photoURL: data.photoURL,
+                role: data.role,
+            });
+
+            Swal.fire({
+                icon: "success",
+                title: "Registration Successful",
+                text: "Your account has been created successfully!",
+                timer: 2000,
+                showConfirmButton: false,
+            });
+
             navigate("/");
-        } catch (err) {
-            Swal.fire({ icon: "error", title: "Registration Failed", text: err.message });
+        } catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Registration Failed",
+                text: error.message,
+            });
         }
     };
+
 
     const handleGoogle = async () => {
         try {
