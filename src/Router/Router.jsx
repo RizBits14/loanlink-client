@@ -5,6 +5,10 @@ import AllLoans from "../Pages/AllLoans";
 import LoanDetails from "../Pages/LoanDetails";
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
+import About from "../Pages/Extra/About";
+import Contact from "../Pages/Extra/Contact";
+import PrivacyPolicy from "../Pages/Extra/PrivacyPolicy";
+import TermsAndServices from "../Pages/Extra/TermsandServices";
 
 const router = createBrowserRouter([
     {
@@ -30,7 +34,11 @@ const router = createBrowserRouter([
             {
                 path: 'register',
                 Component: Register
-            }
+            },
+            { path: 'about', Component: About },
+            { path: 'contact', Component: Contact },
+            { path: 'privacypolicy', Component: PrivacyPolicy },
+            { path: 'termsandservices', Component: TermsAndServices },
         ]
     }
 ])

@@ -30,8 +30,8 @@ const Footer = () => {
                 <div>
                     <h6 className="text-lg font-semibold text-primary mb-3">Legal</h6>
                     <ul className="space-y-2">
-                        <li><a href="/terms" className="text-sm text-gray-600 hover:text-primary transition duration-300">Terms of Service</a></li>
-                        <li><a href="/privacy" className="text-sm text-gray-600 hover:text-primary transition duration-300">Privacy Policy</a></li>
+                        <li><a href="/termsandservices" className="text-sm text-gray-600 hover:text-primary transition duration-300">Terms of Service</a></li>
+                        <li><a href="/privacypolicy" className="text-sm text-gray-600 hover:text-primary transition duration-300">Privacy Policy</a></li>
                     </ul>
                 </div>
             </div>

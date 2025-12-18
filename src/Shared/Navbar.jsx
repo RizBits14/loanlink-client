@@ -64,7 +64,7 @@ const Navbar = () => {
 
                 <div className="hidden lg:flex items-center gap-4">
 
-                    <button onClick={toggleTheme} className="text-xl transition-all">
+                    <button onClick={toggleTheme} className="text-xl transition-all cursor-pointer">
                         {theme === "light" ? "🌙" : "☀️"}
                     </button>
 
