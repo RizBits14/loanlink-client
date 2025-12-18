@@ -25,42 +25,38 @@ const Navbar = () => {
 
     const navLinks = (
         <>
-            <NavLink to="/" onClick={closeMenu} className="hover:text-primary">
+            <NavLink to="/" onClick={closeMenu} className="hover:text-primary transition duration-300">
                 Home
             </NavLink>
-            <NavLink to="/loans" onClick={closeMenu} className="hover:text-primary">
+            <NavLink to="/loans" onClick={closeMenu} className="hover:text-primary transition duration-300">
                 All Loans
             </NavLink>
-            <NavLink to="/about" onClick={closeMenu} className="hover:text-primary">
+            <NavLink to="/about" onClick={closeMenu} className="hover:text-primary transition duration-300">
                 About
             </NavLink>
-            <NavLink to="/contact" onClick={closeMenu} className="hover:text-primary">
+            <NavLink to="/contact" onClick={closeMenu} className="hover:text-primary transition duration-300">
                 Contact
             </NavLink>
         </>
     );
 
     return (
-        <header className="bg-base-100 shadow-md sticky top-0 z-50">
-            <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+        <header className="bg-base-100 shadow-lg sticky top-0 z-50">
+            <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
                 <NavLink to="/" className="flex items-center gap-2">
-                    <img src={logo} alt="LoanLink Logo" className="w-9 h-9" />
-                    <span className="text-xl font-bold text-primary tracking-wide">
+                    <img src={logo} alt="LoanLink Logo" className="w-10 h-10" />
+                    <span className="text-2xl font-bold text-primary tracking-wide">
                         LoanLink
                     </span>
                 </NavLink>
 
-                <nav className="hidden lg:flex items-center gap-6 font-medium">
+                <nav className="hidden lg:flex items-center gap-8 text-lg font-medium">
                     {navLinks}
                 </nav>
 
-                <div className="hidden lg:flex items-center gap-3">
-                    <button
-                        onClick={toggleTheme}
-                        className="btn btn-ghost btn-sm text-lg"
-                        aria-label="Toggle theme"
-                    >
+                <div className="hidden lg:flex items-center gap-6">
+                    <button onClick={toggleTheme} className="text-xl transition-all duration-300 cursor-pointer">
                         {theme === "light" ? "🌙" : "☀️"}
                     </button>
 
@@ -87,26 +83,22 @@ const Navbar = () => {
 
                 <button
                     onClick={() => setMenuOpen(!menuOpen)}
-                    className="lg:hidden text-2xl"
+                    className="lg:hidden text-3xl"
+                    aria-label="Toggle Menu"
                 >
                     {menuOpen ? <FiX /> : <FiMenu />}
                 </button>
             </div>
 
             <div
-                className={`lg:hidden bg-base-100 shadow-md transition-all duration-300 overflow-hidden ${menuOpen ? "max-h-125 opacity-100" : "max-h-0 opacity-0"
-                    }`}
+                className={`lg:hidden bg-base-100 transition-all duration-300 overflow-hidden ${menuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
             >
-                <div className="flex flex-col px-6 py-4 gap-4 font-medium">
-
+                <div className="flex flex-col px-6 py-4 gap-6 font-medium">
                     {navLinks}
 
-                    <div className="divider"></div>
+                    <div className="divider my-4"></div>
 
-                    <button
-                        onClick={toggleTheme}
-                        className="btn btn-ghost justify-start"
-                    >
+                    <button onClick={toggleTheme} className="btn btn-ghost justify-start transition-all duration-300">
                         {theme === "light" ? "🌙 Dark Mode" : "☀️ Light Mode"}
                     </button>
 
@@ -115,7 +107,7 @@ const Navbar = () => {
                             <NavLink to="/dashboard" onClick={closeMenu} className="btn btn-outline btn-primary">
                                 Dashboard
                             </NavLink>
-                            <button className="btn btn-error text-white">
+                            <button className="btn btn-error text-white" onClick={closeMenu}>
                                 Logout
                             </button>
                         </>

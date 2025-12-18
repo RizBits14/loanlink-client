@@ -16,6 +16,7 @@ import choose3 from "../assets/chooseus/img3.jpg";
 
 import apply1 from "../assets/apply/img1.png";
 import Reviews from "./Reviews/Reviews";
+import Stats from "./Stats/Stats";
 
 const banners = [banner1, banner2, banner3];
 
@@ -136,8 +137,12 @@ const Home = () => {
                     </Motion.div>
                 </div>
             </section>
+            <div>
+                <h1 className="text-3xl font-bold text-center">Our <span className="text-primary">Statistics</span></h1>
+                <Stats></Stats>
+            </div>
 
-            <section className="max-w-7xl mx-auto px-6">
+            <section className="max-w-7xl mx-auto px-6 ">
                 <Motion.h2
                     variants={fadeUp}
                     initial="hidden"
@@ -160,7 +165,12 @@ const Home = () => {
                             key={i}
                             variants={{ ...fadeUp, ...hoverLift }}
                             whileHover="hover"
-                            className="bg-base-100 rounded-2xl p-6 shadow-sm"
+                            className="bg-base-100 rounded-2xl p-6 relative flex flex-col
+                            shadow-md hover:shadow-xl
+                            transition-all duration-300 ease-out
+                            hover:-translate-y-2 hover:scale-[1.02]
+                            border border-transparent hover:border-primary/30
+                            animate-slide-up"
                         >
                             <h3 className="font-semibold text-lg mb-2">
                                 Micro Business Loan
