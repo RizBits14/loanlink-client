@@ -3,6 +3,8 @@ import RootLayout from "../Layouts/RootLayout";
 import Home from "../Pages/Home";
 import AllLoans from "../Pages/AllLoans";
 import LoanDetails from "../Pages/LoanDetails";
+import Login from "../Pages/Login";
+import Register from "../Pages/Register";
 
 const router = createBrowserRouter([
     {
@@ -20,6 +22,14 @@ const router = createBrowserRouter([
             {
                 path: 'loans/:id',
                 Component: LoanDetails
+            },
+            {
+                path: 'login',
+                Component: Login
+            },
+            {
+                path: 'register',
+                Component: Register
             }
         ]
     }
