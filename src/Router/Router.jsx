@@ -9,6 +9,9 @@ import Contact from "../Pages/Extra/Contact";
 import PrivacyPolicy from "../Pages/Extra/PrivacyPolicy";
 import TermsAndServices from "../Pages/Extra/TermsandServices";
 import PrivateLoanDetails from "./PrivateLoanDetails";
+import PrivateRoute from "./PrivateRoute";
+import DashboardLayout from "../Layouts/DashboardLayout";
+import DashboardHome from "../Pages/Dashboard/DashboardHome";
 
 const router = createBrowserRouter([
     {
@@ -24,6 +27,20 @@ const router = createBrowserRouter([
             { path: 'contact', Component: Contact },
             { path: 'privacypolicy', Component: PrivacyPolicy },
             { path: 'termsandservices', Component: TermsAndServices },
+        ]
+    },
+    {
+        path: "dashboard",
+        element: (
+            <PrivateRoute>
+                <DashboardLayout></DashboardLayout>
+            </PrivateRoute>
+        ),
+        children: [
+            {
+                index: true,
+                Component: DashboardHome
+            }
         ]
     }
 ]);
