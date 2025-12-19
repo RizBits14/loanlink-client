@@ -65,11 +65,32 @@ export const Register = () => {
 
     const handleGoogle = async () => {
         try {
-            await googleLogin();
-            Swal.fire({ icon: "success", title: "Signed in with Google", timer: 1500, showConfirmButton: false });
+            const result = await googleLogin();
+
+            const userInfo = {
+                name: result.user.displayName,
+                email: result.user.email,
+                photoURL: result.user.photoURL,
+                role: "borrower",
+            };
+
+            await saveUserToDB(userInfo);
+
+            Swal.fire({
+                icon: "success",
+                title: "Login Successful",
+                text: "Logged in with Google",
+                timer: 2000,
+                showConfirmButton: false,
+            });
+
             navigate("/");
-        } catch (err) {
-            Swal.fire({ icon: "error", title: "Google Login Failed", text: err.message });
+        } catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Google Login Failed",
+                text: error.message,
+            });
         }
     };
 

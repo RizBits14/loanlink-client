@@ -23,8 +23,9 @@ export const AuthProvider = ({ children }) => {
     const loginUser = (email, password) =>
         signInWithEmailAndPassword(auth, email, password);
 
-    const googleLogin = () =>
-        signInWithPopup(auth, googleProvider);
+    const googleLogin = async () => {
+        return await signInWithPopup(auth, googleProvider);
+    };;
 
     const updateUserProfile = (name, photoURL) =>
         updateProfile(auth.currentUser, { displayName: name, photoURL });

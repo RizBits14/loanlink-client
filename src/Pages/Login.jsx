@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useForm } from "react-hook-form";
-import { NavLink, useNavigate } from "react-router";
+import { NavLink, useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAuth from "../Hooks/useAuth";
 import loginImage from "../assets/auth/loginImage.jpg";
@@ -25,7 +25,7 @@ const Login = () => {
                 timer: 1500,
                 showConfirmButton: false,
             });
-            navigate("/");
+            navigate(from, { replace: true });
         } catch (error) {
             Swal.fire({
                 icon: "error",
@@ -53,6 +53,10 @@ const Login = () => {
             });
         }
     };
+
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
+
 
     return (
         <div className="min-h-screen flex flex-col lg:flex-row bg-linear-to-br from-base-100 to-base-200 dark:from-gray-900 dark:to-gray-800">
