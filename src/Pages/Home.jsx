@@ -184,7 +184,7 @@ const Home = () => {
                     border border-transparent hover:border-primary/30"
                             >
                                 <img
-                                    src={loan.image}
+                                    src={loan.images?.[0]}
                                     alt={loan.title}
                                     className="h-48 w-full object-cover rounded-xl mb-5"
                                 />
@@ -200,7 +200,7 @@ const Home = () => {
                                 <p className="text-sm font-medium mb-5">
                                     Max Loan:{" "}
                                     <span className="text-primary font-semibold">
-                                        ${loan.maxAmount}
+                                        ${loan.maxLoanLimit}
                                     </span>
                                 </p>
 

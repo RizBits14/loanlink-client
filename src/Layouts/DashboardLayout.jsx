@@ -4,6 +4,7 @@ import useAuth from "../Hooks/useAuth";
 import useUserRole from "../Hooks/useUserRole";
 import Navbar from "../Shared/Navbar";
 import Footer from "../Shared/Footer";
+import ScrollToTop from "../Shared/ScrollToTop";
 
 const DashboardLayout = () => {
     const { user } = useAuth();
@@ -20,6 +21,7 @@ const DashboardLayout = () => {
         <div className="min-h-screen flex flex-col bg-base-200">
 
             <Navbar />
+            <ScrollToTop></ScrollToTop>
 
             <div className="flex flex-1">
 

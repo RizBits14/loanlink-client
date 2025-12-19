@@ -58,7 +58,7 @@ const AllLoans = () => {
 
                             <div className="relative h-52 rounded-2xl overflow-hidden mb-6">
                                 <img
-                                    src={loan.image}
+                                    src={loan.images?.[0]}
                                     alt={loan.title}
                                     className="
                                         h-full w-full object-cover
@@ -89,7 +89,7 @@ const AllLoans = () => {
                                 <p className="text-sm">
                                     Max Amount:{" "}
                                     <span className="text-primary font-bold text-lg">
-                                        ${loan.maxAmount}
+                                        ${loan.maxLoanLimit}
                                     </span>
                                 </p>
                             </div>

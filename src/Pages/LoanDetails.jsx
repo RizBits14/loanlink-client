@@ -27,7 +27,7 @@ const LoanDetails = () => {
             <div className="relative mx-auto rounded-3xl overflow-hidden shadow-2xl group"
                 style={{ maxWidth: "80%" }}>
                 <img
-                    src={loan.image}
+                    src={loan.images?.[0]}
                     alt={loan.title}
                     className="w-full h-64 sm:h-72 md:h-80 lg:h-150 object-cover transition-transform duration-700 group-hover:scale-110"
                 />
@@ -50,7 +50,7 @@ const LoanDetails = () => {
                         <p className="text-lg">
                             <span className="font-semibold">Maximum Loan Amount:</span>{" "}
                             <span className="text-primary text-3xl font-bold animate-pulse">
-                                ${loan.maxAmount}
+                                ${loan.maxLoanLimit}
                             </span>
                         </p>
                         {loan.duration && (

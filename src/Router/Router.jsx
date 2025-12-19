@@ -14,6 +14,8 @@ import DashboardLayout from "../Layouts/DashboardLayout";
 import DashboardHome from "../Pages/Dashboard/DashboardHome";
 import AdminRoute from "./AdminRoute";
 import ManageUsers from "../Pages/Dashboard/Admin/ManageUsers";
+import ManagerRoute from "./ManagerRoute";
+import AddLoan from "../Pages/Dashboard/Manager/AddLoan";
 
 const router = createBrowserRouter([
     {
@@ -46,6 +48,10 @@ const router = createBrowserRouter([
             {
                 path: "manage-users",
                 element: <AdminRoute><ManageUsers></ManageUsers></AdminRoute>
+            },
+            {
+                path: "add-loan",
+                element: <ManagerRoute><AddLoan></AddLoan></ManagerRoute>
             }
         ]
     }
