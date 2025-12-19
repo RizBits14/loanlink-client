@@ -24,16 +24,16 @@ const LoanDetails = () => {
     return (
         <div className="max-w-6xl mx-auto px-6 py-24 space-y-16 animate-fade-in-up">
 
-            <div
-                className="relative mx-auto rounded-3xl overflow-hidden shadow-2xl group"
-                style={{ maxWidth: "80%" }}
-            >
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl group 
+                            h-105 sm:h-120 md:h-130">
+
                 <img
                     src={loan.images?.[0]}
                     alt={loan.title}
-                    className="w-full h-64 sm:h-72 md:h-80 object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent"></div>
+
+                <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent" />
 
                 <div className="absolute bottom-6 left-6 right-6 space-y-2">
                     <h1 className="text-4xl md:text-5xl font-bold text-white">
@@ -56,7 +56,7 @@ const LoanDetails = () => {
 
                     <p className="text-lg">
                         <span className="font-semibold">Maximum Loan Amount:</span>{" "}
-                        <span className="text-primary text-3xl font-bold">
+                        <span className="block text-primary text-3xl font-bold">
                             ${loan.maxLoanLimit}
                         </span>
                     </p>

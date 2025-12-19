@@ -16,6 +16,7 @@ import AdminRoute from "./AdminRoute";
 import ManageUsers from "../Pages/Dashboard/Admin/ManageUsers";
 import ManagerRoute from "./ManagerRoute";
 import AddLoan from "../Pages/Dashboard/Manager/AddLoan";
+import AdminAllLoans from "../Pages/Dashboard/Admin/AdminAllLoans";
 
 const router = createBrowserRouter([
     {
@@ -52,6 +53,12 @@ const router = createBrowserRouter([
             {
                 path: "add-loan",
                 element: <ManagerRoute><AddLoan></AddLoan></ManagerRoute>
+            },
+            {
+                path: "all-loan",
+                element: (
+                    <AdminRoute><AdminAllLoans></AdminAllLoans></AdminRoute>
+                )
             }
         ]
     }
