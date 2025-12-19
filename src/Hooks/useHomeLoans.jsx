@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 const fetchHomeLoans = async () => {
-    const res = await fetch("http://localhost:3000/loans?limit=6");
+    const res = await fetch("http://localhost:3000/loans?home=true&limit=6")
     if (!res.ok) {
         throw new Error("Failed to fetch loans");
     }
