@@ -19,7 +19,6 @@ const DashboardLayout = () => {
     return (
         <div className="min-h-screen flex flex-col bg-base-200">
 
-            {/* NAVBAR */}
             <Navbar />
 
             <div className="flex flex-1">

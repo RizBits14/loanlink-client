@@ -8,24 +8,15 @@ import ReviewCard from "./ReviewCard";
 
 const Reviews = () => {
     const [reviews, setReviews] = useState([]);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetch("/reviews.json")
             .then((res) => res.json())
             .then((data) => {
                 setReviews(data);
-                setLoading(false);
             });
     }, []);
 
-    if (loading) {
-        return (
-            <section className="py-16 text-center">
-                <span className="loading loading-spinner loading-lg"></span>
-            </section>
-        );
-    }
 
     return (
         <section className="w-full bg-base-100 py-14 md:py-20">
