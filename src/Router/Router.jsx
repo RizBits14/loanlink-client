@@ -20,6 +20,7 @@ import AdminAllLoans from "../Pages/Dashboard/Admin/AdminAllLoans";
 import BorrowerRoute from "./BorrowerRoute";
 import ApplyLoan from "../Pages/Dashboard/Borrower/ApplyLoan";
 import MyLoans from "../Pages/Dashboard/Borrower/MyLoans";
+import PendingLoans from "../Pages/Dashboard/Manager/PendingLoans";
 
 const router = createBrowserRouter([
     {
@@ -73,6 +74,12 @@ const router = createBrowserRouter([
                 path: "my-loans",
                 element: (
                     <BorrowerRoute><MyLoans></MyLoans></BorrowerRoute>
+                )
+            },
+            {
+                path: "pending-loans",
+                element: (
+                    <ManagerRoute><PendingLoans></PendingLoans></ManagerRoute>
                 )
             }
         ]
