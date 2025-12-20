@@ -130,11 +130,8 @@ const Home = () => {
                         </p>
 
                         <div className="mt-6 flex gap-4">
-                            <NavLink to="/loans" className="btn btn-accent">
-                                Explore Loans
-                            </NavLink>
-                            <NavLink to="/register" className="btn btn-outline text-white">
-                                Get Started
+                            <NavLink to="/apply-loan" className="btn btn-accent">
+                                Apply For Loan
                             </NavLink>
                         </div>
                     </Motion.div>
@@ -328,7 +325,7 @@ const Home = () => {
                         <p className="mb-6 opacity-90">
                             Join LoanLink today and experience secure, modern microloan management.
                         </p>
-                        <NavLink to="/register" className="btn btn-accent">
+                        <NavLink to="/apply-loan" className="btn btn-accent">
                             Apply Now
                         </NavLink>
                     </Motion.div>

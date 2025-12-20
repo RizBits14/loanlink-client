@@ -80,10 +80,16 @@ const AllLoans = () => {
                             <h2 className="text-2xl font-semibold mb-3 relative z-10">
                                 {loan.title}
                             </h2>
+                            <h2
+                                className="text-sm uppercase tracking-widest text-primary/80 font-medium mb-2 relative z-10 bg-primary/10 inline-block px-3 py-1 rounded-full">
+                                {loan.category}
+                            </h2>
 
-                            <p className="text-sm opacity-80 mb-6 grow relative z-10 leading-relaxed">
-                                {loan.description}
-                            </p>
+                            <h2
+                                className=" text-xl font-bold text-secondary mb-4 relative z-10 flex items-center gap-1">
+                                <span className="text-sm opacity-70">Interest:</span>
+                                {loan.interestRate}%
+                            </h2>
 
                             <div className="mb-7 relative z-10">
                                 <p className="text-sm">

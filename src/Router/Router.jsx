@@ -38,6 +38,7 @@ const router = createBrowserRouter([
             { path: 'contact', Component: Contact },
             { path: 'privacypolicy', Component: PrivacyPolicy },
             { path: 'termsandservices', Component: TermsAndServices },
+            { path: 'apply-loan', element: (<PrivateRoute><ApplyLoan></ApplyLoan></PrivateRoute>) }
         ]
     },
     {
