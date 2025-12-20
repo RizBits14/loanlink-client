@@ -18,7 +18,6 @@ const ReviewCard = ({ review }) => {
 
     return (
         <div className="group card bg-base-100 border border-base-300 shadow-sm rounded-2xl p-6 max-w-md mx-auto transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
-            {/* Header */}
             <div className="flex items-center mb-4">
                 <div className="avatar">
                     <div className="w-12 h-12 rounded-full ring ring-primary/60 ring-offset-2 ring-offset-base-100 overflow-hidden">

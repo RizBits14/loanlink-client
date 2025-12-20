@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { NavLink, Outlet } from "react-router";
 import useAuth from "../Hooks/useAuth";
-import useUserRole from "../Hooks/useUserRole";
+import useUserRole from "../hooks/useUserRole";
 import Navbar from "../Shared/Navbar";
 import Footer from "../Shared/Footer";
 import ScrollToTop from "../Shared/ScrollToTop";

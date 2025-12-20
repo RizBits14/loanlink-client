@@ -46,7 +46,6 @@ const AddLoan = () => {
     return (
         <section className="max-w-5xl mx-auto">
 
-            {/* Header */}
             <div className="mb-8">
                 <h1 className="text-3xl md:text-4xl font-bold text-primary">
                     Add New Loan
@@ -56,7 +55,6 @@ const AddLoan = () => {
                 </p>
             </div>
 
-            {/* Card */}
             <div className="
         bg-base-100 
         rounded-2xl 
@@ -72,7 +70,6 @@ const AddLoan = () => {
                     className="grid grid-cols-1 md:grid-cols-2 gap-6"
                 >
 
-                    {/* Loan Title */}
                     <div className="md:col-span-2">
                         <label className="label font-semibold">Loan Title</label>
                         <input
@@ -87,7 +84,6 @@ const AddLoan = () => {
                         )}
                     </div>
 
-                    {/* Description */}
                     <div className="md:col-span-2">
                         <label className="label font-semibold">Description</label>
                         <textarea
@@ -97,7 +93,6 @@ const AddLoan = () => {
                         />
                     </div>
 
-                    {/* Category */}
                     <div>
                         <label className="label font-semibold">Category</label>
                         <input
@@ -107,7 +102,6 @@ const AddLoan = () => {
                         />
                     </div>
 
-                    {/* Interest Rate */}
                     <div>
                         <label className="label font-semibold">Interest Rate (%)</label>
                         <input
@@ -119,7 +113,6 @@ const AddLoan = () => {
                         />
                     </div>
 
-                    {/* Max Loan */}
                     <div>
                         <label className="label font-semibold">Maximum Loan Limit</label>
                         <input
@@ -130,7 +123,6 @@ const AddLoan = () => {
                         />
                     </div>
 
-                    {/* EMI Plans */}
                     <div>
                         <label className="label font-semibold">EMI Plans</label>
                         <input
@@ -140,7 +132,6 @@ const AddLoan = () => {
                         />
                     </div>
 
-                    {/* Required Documents */}
                     <div className="md:col-span-2">
                         <label className="label font-semibold">Required Documents</label>
                         <input
@@ -150,7 +141,6 @@ const AddLoan = () => {
                         />
                     </div>
 
-                    {/* Image */}
                     <div className="md:col-span-2">
                         <label className="label font-semibold">Loan Image URL</label>
                         <input
@@ -160,7 +150,6 @@ const AddLoan = () => {
                         />
                     </div>
 
-                    {/* Show on Home */}
                     <div className="md:col-span-2 flex items-center gap-4 mt-2">
                         <input
                             type="checkbox"
@@ -172,7 +161,6 @@ const AddLoan = () => {
                         </span>
                     </div>
 
-                    {/* Submit */}
                     <div className="md:col-span-2 pt-6">
                         <button
                             type="submit"

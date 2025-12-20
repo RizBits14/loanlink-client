@@ -1,11 +1,15 @@
 import { Navigate, useLocation } from "react-router";
 import useAuth from "../Hooks/useAuth";
-import useUserRole from "../Hooks/useUserRole";
+import useUserRole from "../hooks/useUserRole";
 
 const BorrowerRoute = ({ children }) => {
-    const { user } = useAuth();
-    const { role, status } = useUserRole();
+    const { user, loading } = useAuth();
+    const { role, status, roleLoading } = useUserRole();
     const location = useLocation();
+
+    if (loading || roleLoading) {
+        return null;
+    }
 
 
     if (!user) return <Navigate to="/login" state={{ from: location }} replace />;
