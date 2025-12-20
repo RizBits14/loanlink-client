@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from "react";
 import Swal from "sweetalert2";
 import { motion as Motion } from "framer-motion";
 import { useQueryClient } from "@tanstack/react-query";
@@ -7,6 +7,36 @@ import useMyLoans from "../../../Hooks/useMyLoans";
 const MyLoans = () => {
     const { data: loans = [], isLoading } = useMyLoans();
     const queryClient = useQueryClient();
+
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const success = params.get("success");
+        const applicationId = params.get("applicationId");
+
+        if (success === "true" && applicationId) {
+            fetch(`http://localhost:3000/loan-applications/${applicationId}/pay`, {
+                method: "PATCH",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify({
+                    transaction: "stripe",
+                }),
+            })
+                .then(() => {
+                    Swal.fire(
+                        "Payment Successful",
+                        "Fee paid successfully.",
+                        "success"
+                    );
+                    queryClient.invalidateQueries(["myLoans"]);
+
+                    window.history.replaceState(
+                        {},
+                        document.title,
+                        "/dashboard/my-loans"
+                    );
+                });
+        }
+    }, [queryClient]);
 
     const handleCancel = async (id) => {
         const result = await Swal.fire({
@@ -20,14 +50,30 @@ const MyLoans = () => {
 
         if (!result.isConfirmed) return;
 
-        await fetch(
-            `http://localhost:3000/loan-applications/${id}/cancel`,
-            { method: "PATCH" }
-        );
+        await fetch(`http://localhost:3000/loan-applications/${id}/cancel`, {
+            method: "PATCH",
+        });
 
         queryClient.invalidateQueries(["myLoans"]);
 
         Swal.fire("Cancelled", "Loan application cancelled.", "success");
+    };
+
+    const handlePay = async (loan) => {
+        const res = await fetch(
+            "http://localhost:3000/create-payment-session",
+            {
+                method: "POST",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify({
+                    applicationId: loan._id,
+                    userEmail: loan.userEmail,
+                }),
+            }
+        );
+
+        const data = await res.json();
+        window.location.assign(data.url);
     };
 
     if (isLoading) {
@@ -72,19 +118,17 @@ const MyLoans = () => {
                                         </p>
                                     </td>
 
-                                    <td className="font-medium">
-                                        ${loan.amount}
-                                    </td>
+                                    <td className="font-medium">${loan.amount}</td>
 
                                     <td>
                                         <span
                                             className={`badge ${loan.status === "approved"
-                                                    ? "badge-success"
-                                                    : loan.status === "rejected"
-                                                        ? "badge-error"
-                                                        : loan.status === "cancelled"
-                                                            ? "badge-neutral"
-                                                            : "badge-warning"
+                                                ? "badge-success"
+                                                : loan.status === "rejected"
+                                                    ? "badge-error"
+                                                    : loan.status === "cancelled"
+                                                        ? "badge-neutral"
+                                                        : "badge-warning"
                                                 }`}
                                         >
                                             {loan.status}
@@ -92,8 +136,26 @@ const MyLoans = () => {
                                     </td>
 
                                     <td>
-                                        {loan.feeStatus === "Paid" ? (
-                                            <span className="badge badge-success">Paid</span>
+                                        {loan.feeStatus === "paid" ? (
+                                            <button
+                                                onClick={() =>
+                                                    Swal.fire({
+                                                        title: "Payment Details",
+                                                        html: `
+                                                            <p><strong>Status:</strong> Paid</p>
+                                                            <p><strong>Date:</strong> ${loan.paidAt
+                                                                ? new Date(
+                                                                    loan.paidAt
+                                                                ).toLocaleDateString()
+                                                                : "—"
+                                                            }</p>
+                                                        `,
+                                                    })
+                                                }
+                                                className="btn btn-xs btn-success"
+                                            >
+                                                Paid
+                                            </button>
                                         ) : (
                                             <span className="badge badge-outline">Unpaid</span>
                                         )}
@@ -109,10 +171,13 @@ const MyLoans = () => {
                                             </button>
                                         )}
 
-                                        {loan.feeStatus === "Unpaid" &&
-                                            loan.status === "Approved" && (
-                                                <button className="btn btn-xs btn-primary">
-                                                    Pay
+                                        {loan.status === "approved" &&
+                                            loan.feeStatus === "unpaid" && (
+                                                <button
+                                                    onClick={() => handlePay(loan)}
+                                                    className="btn btn-xs btn-primary"
+                                                >
+                                                    Pay $10
                                                 </button>
                                             )}
                                     </td>
