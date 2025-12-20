@@ -65,7 +65,19 @@ const PendingLoans = () => {
             transition={{ duration: 0.4 }}
             className="space-y-8"
         >
-            <h1 className="text-3xl font-bold">Pending Loan Applications</h1>
+            <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                <h1 className="text-2xl md:text-3xl font-bold">
+                    Pending Loan Applications
+                </h1>
+
+                <span className="badge badge-warning badge-sm w-fit md:hidden">
+                    {loans.length} Pending
+                </span>
+
+                <span className="hidden md:inline-flex badge badge-warning badge-lg">
+                    {loans.length} Pending
+                </span>
+            </div>
 
             {loans.length === 0 ? (
                 <p className="opacity-70">No pending loan applications.</p>
@@ -98,20 +110,22 @@ const PendingLoans = () => {
                                         {new Date(loan.createdAt).toLocaleDateString()}
                                     </td>
 
-                                    <td className="text-right space-x-2">
-                                        <button
-                                            onClick={() => handleApprove(loan._id)}
-                                            className="btn btn-xs btn-success"
-                                        >
-                                            Approve
-                                        </button>
+                                    <td className="text-right">
+                                        <div className="flex flex-col gap-1 sm:flex-row sm:justify-end sm:gap-2">
+                                            <button
+                                                onClick={() => handleApprove(loan._id)}
+                                                className="btn btn-xs sm:btn-sm btn-success w-full sm:w-auto"
+                                            >
+                                                Approve
+                                            </button>
 
-                                        <button
-                                            onClick={() => handleReject(loan._id)}
-                                            className="btn btn-xs btn-error"
-                                        >
-                                            Reject
-                                        </button>
+                                            <button
+                                                onClick={() => handleReject(loan._id)}
+                                                className="btn btn-xs sm:btn-sm btn-error w-full sm:w-auto"
+                                            >
+                                                Reject
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}

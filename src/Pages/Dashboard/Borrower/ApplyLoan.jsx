@@ -31,6 +31,7 @@ const ApplyLoan = () => {
             loanCategory: loan.category,
             amount: data.amount,
             reason: data.reason,
+            monthlyIncome: Number(data.monthyincome),
         };
 
         const res = await fetch("http://localhost:3000/loan-applications", {
@@ -91,6 +92,12 @@ const ApplyLoan = () => {
                     className="input input-bordered w-full"
                     placeholder="Income Source"
                     {...register("incomeSource", { required: true })}
+                />
+
+                <input
+                    className="input input-bordered w-full"
+                    placeholder="Monthly Income"
+                    {...register("monthyincome", { required: true })}
                 />
 
                 <input

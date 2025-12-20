@@ -20,11 +20,16 @@ const ApprovedLoans = () => {
             transition={{ duration: 0.5, ease: "easeOut" }}
             className="space-y-8"
         >
-            <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-bold tracking-tight">
+            <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
                     Approved Loan Applications
                 </h1>
-                <span className="badge badge-success badge-lg">
+
+                <span className="badge badge-success badge-sm w-fit md:hidden">
+                    {loans.length} Approved
+                </span>
+
+                <span className="hidden md:inline-flex badge badge-success badge-lg">
                     {loans.length} Approved
                 </span>
             </div>

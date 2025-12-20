@@ -23,20 +23,44 @@ export const AuthProvider = ({ children }) => {
     const loginUser = (email, password) =>
         signInWithEmailAndPassword(auth, email, password);
 
-    const googleLogin = async () => {
-        return await signInWithPopup(auth, googleProvider);
-    };;
+    const googleLogin = () => signInWithPopup(auth, googleProvider);
 
     const updateUserProfile = (name, photoURL) =>
         updateProfile(auth.currentUser, { displayName: name, photoURL });
 
-    const logout = () => signOut(auth);
+    const logout = async () => {
+        await fetch("http://localhost:3000/logout", {
+            method: "POST",
+            credentials: "include",
+        });
+        return signOut(auth);
+    };
 
     useEffect(() => {
-        const unsub = onAuthStateChanged(auth, (currentUser) => {
+        const unsub = onAuthStateChanged(auth, async (currentUser) => {
             setUser(currentUser);
+
+            try {
+                if (currentUser?.email) {
+                    await fetch("http://localhost:3000/jwt", {
+                        method: "POST",
+                        headers: { "content-type": "application/json" },
+                        credentials: "include",
+                        body: JSON.stringify({ email: currentUser.email }),
+                    });
+                } else {
+                    await fetch("http://localhost:3000/logout", {
+                        method: "POST",
+                        credentials: "include",
+                    });
+                }
+            } catch (err) {
+                console.log(err)
+            }
+
             setLoading(false);
         });
+
         return () => unsub();
     }, []);
 

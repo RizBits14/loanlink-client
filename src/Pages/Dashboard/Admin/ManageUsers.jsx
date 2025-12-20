@@ -1,3 +1,4 @@
+import React from 'react';
 import Swal from "sweetalert2";
 import useAllUsers from "../../../Hooks/useAllUsers";
 import { useQueryClient } from "@tanstack/react-query";
@@ -54,7 +55,15 @@ const ManageUsers = () => {
 
     return (
         <div>
-            <h1 className="text-3xl font-bold mb-6">Manage Users</h1>
+            <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between mb-6">
+                <h1 className="text-2xl md:text-3xl font-bold">Manage Users</h1>
+                <span className="badge badge-primary badge-sm w-fit md:hidden">
+                    {users.length} Users
+                </span>
+                <span className="hidden md:inline-flex badge badge-primary badge-lg">
+                    {users.length} Users
+                </span>
+            </div>
 
             <div className="overflow-x-auto bg-base-100 rounded-xl shadow">
                 <table className="table w-full">
@@ -67,7 +76,6 @@ const ManageUsers = () => {
                             <th>Actions</th>
                         </tr>
                     </thead>
-
                     <tbody>
                         {users.map((user) => (
                             <tr key={user._id}>
@@ -77,34 +85,33 @@ const ManageUsers = () => {
                                 <td>
                                     <span
                                         className={`badge ${user.status === "active"
-                                            ? "badge-success"
-                                            : "badge-error"
+                                                ? "badge-success"
+                                                : "badge-error"
                                             }`}
                                     >
                                         {user.status}
                                     </span>
                                 </td>
-                                <td className="space-x-2">
-                                    <button
-                                        onClick={() =>
-                                            handleRoleChange(
-                                                user._id,
-                                                user.role === "manager" ? "borrower" : "manager"
-                                            )
-                                        }
-                                        className="btn btn-xs btn-outline"
-                                    >
-                                        Make {user.role === "manager" ? "Borrower" : "Manager"}
-                                    </button>
-
-                                    <button
-                                        onClick={() =>
-                                            handleSuspend(user._id, user.status)
-                                        }
-                                        className="btn btn-xs btn-error"
-                                    >
-                                        {user.status === "active" ? "Suspend" : "Activate"}
-                                    </button>
+                                <td>
+                                    <div className="flex flex-col gap-3 md:flex-col md:justify-end md:gap-2">
+                                        <button
+                                            onClick={() =>
+                                                handleRoleChange(
+                                                    user._id,
+                                                    user.role === "manager" ? "borrower" : "manager"
+                                                )
+                                            }
+                                            className="btn md:btn-sm btn-outline w-full md:w-auto p-2 text-black bg-amber-400"
+                                        >
+                                            Make {user.role === "manager" ? "Borrower" : "Manager"}
+                                        </button>
+                                        <button
+                                            onClick={() => handleSuspend(user._id, user.status)}
+                                            className="btn md:btn-sm btn-error w-full md:w-auto p-2 text-black "
+                                        >
+                                            {user.status === "active" ? "Suspend" : "Activate"}
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}
