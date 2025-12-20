@@ -1,4 +1,3 @@
-import React from 'react';
 import { useQuery } from "@tanstack/react-query";
 
 const useAllApplications = (status) => {
@@ -9,10 +8,17 @@ const useAllApplications = (status) => {
                 ? `http://localhost:3000/loan-applications?status=${status}`
                 : `http://localhost:3000/loan-applications`;
 
-            const res = await fetch(url);
-            if (!res.ok) throw new Error("Failed to fetch applications");
+            const res = await fetch(url, {
+                credentials: "include",
+            });
+
+            if (!res.ok) {
+                throw new Error("Failed to fetch applications");
+            }
+
             return res.json();
         },
+        enabled: status !== undefined, // optional safety
     });
 };
 

@@ -6,7 +6,9 @@ const useApprovedLoans = () => {
         queryKey: ["approvedLoans"],
         queryFn: async () => {
             const res = await fetch(
-                "http://localhost:3000/loan-applications/approved"
+                "http://localhost:3000/loan-applications/approved", {
+                credentials: "include",
+            }
             );
             if (!res.ok) throw new Error("Failed to fetch approved loans");
             return res.json();
