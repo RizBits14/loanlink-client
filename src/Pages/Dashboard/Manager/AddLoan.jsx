@@ -27,6 +27,7 @@ const AddLoan = () => {
         };
 
         const res = await fetch("http://localhost:3000/loans", {
+            credentials: "include",
             method: "POST",
             headers: { "content-type": "application/json" },
             body: JSON.stringify(loanData),

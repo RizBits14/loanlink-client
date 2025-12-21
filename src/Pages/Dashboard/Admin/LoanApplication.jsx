@@ -32,11 +32,7 @@ const LoanApplications = () => {
     };
 
     if (isLoading) {
-        return (
-            <div className="flex justify-center items-center py-32">
-                <span className="loading loading-spinner loading-lg text-primary" />
-            </div>
-        );
+        return <div className="py-20 text-center">Loading...</div>;
     }
 
     return (
@@ -69,8 +65,9 @@ const LoanApplications = () => {
                     <table className="table w-full">
                         <thead className="bg-base-200">
                             <tr>
+                                <th>Loan ID</th>
                                 <th>User</th>
-                                <th>Loan</th>
+                                <th>Loan Title</th>
                                 <th>Amount</th>
                                 <th>Status</th>
                                 <th>Date</th>
@@ -81,6 +78,7 @@ const LoanApplications = () => {
                         <tbody>
                             {applications.map((app) => (
                                 <tr key={app._id} className="hover:bg-base-200/60">
+                                    <td className='font-semibold'>{app._id}</td>
                                     <td>
                                         <p className="font-semibold">{app.userName}</p>
                                         <p className="text-xs opacity-70">{app.userEmail}</p>
