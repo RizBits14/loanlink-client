@@ -8,8 +8,7 @@ LoanLink is a role-based Loan Management System where borrowers can apply for lo
 - Support Stripe fee payments for approved loan applications
 
 ## Live URL
-- Client: <YOUR_CLIENT_LIVE_URL>
-- Server API: <YOUR_SERVER_LIVE_URL>
+- Client: https://rizbits14-loanlink.netlify.app/
 
 ## Key Features
 - Firebase Authentication (Email/Password + Google)
