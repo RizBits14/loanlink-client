@@ -98,10 +98,6 @@ const Profile = () => {
                                 and pay the application fee after approval.
                             </p>
                         )}
-                        <p className="text-sm opacity-70">
-                            (Optional later) You can add an “Edit Profile” form if your
-                            assignment needs it.
-                        </p>
                     </div>
                 </div>
             </div>
