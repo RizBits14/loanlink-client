@@ -9,7 +9,7 @@ const useManagerLoans = () => {
         queryKey: ["managerLoans", user?.email],
         enabled: !loading && !!user?.email,
         queryFn: async () => {
-            const res = await fetch("http://localhost:3000/manager/loans", {
+            const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/manager/loans`, {
                 credentials: "include",
             });
             if (!res.ok) throw new Error("Failed to load manager loans");

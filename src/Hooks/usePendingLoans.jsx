@@ -5,7 +5,7 @@ const usePendingLoans = () => {
         queryKey: ["pendingLoans"],
         queryFn: async () => {
             const res = await fetch(
-                "http://localhost:3000/loan-applications/pending",
+                `${import.meta.env.VITE_BACKEND_URL}/loan-applications/pending`,
                 {
                     credentials: "include",
                 }

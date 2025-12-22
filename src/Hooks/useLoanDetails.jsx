@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 const fetchLoanDetails = async (id) => {
-    const res = await fetch(`http://localhost:3000/loans/${id}`);
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/loans/${id}`);
     if (!res.ok) {
         throw new Error("Failed to fetch loan details", {
             credentials: "include",

@@ -14,7 +14,7 @@ const MyLoans = () => {
         const applicationId = params.get("applicationId");
 
         if (success === "true" && applicationId) {
-            fetch(`http://localhost:3000/loan-applications/${applicationId}/pay`, {
+            fetch(`${import.meta.env.VITE_BACKEND_URL}/loan-applications/${applicationId}/pay`, {
                 credentials: "include",
                 method: "PATCH",
                 headers: { "content-type": "application/json" },
@@ -54,7 +54,7 @@ const MyLoans = () => {
 
         if (!result.isConfirmed) return;
 
-        const res = await fetch(`http://localhost:3000/loan-applications/${id}/cancel`, {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/loan-applications/${id}/cancel`, {
             credentials: "include",
             method: "PATCH",
         });
@@ -69,7 +69,7 @@ const MyLoans = () => {
     };
 
     const handlePay = async (loan) => {
-        const res = await fetch("http://localhost:3000/create-payment-session", {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/create-payment-session`, {
             credentials: "include",
             method: "POST",
             headers: { "content-type": "application/json" },
@@ -87,7 +87,7 @@ const MyLoans = () => {
 
     const handlePaymentDetails = async (loan) => {
         try {
-            const res = await fetch(`http://localhost:3000/loan-applications/${loan._id}`, {
+            const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/loan-applications/${loan._id}`, {
                 credentials: "include",
             });
             const data = await res.json().catch(() => ({}));

@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
         updateProfile(auth.currentUser, { displayName: name, photoURL });
 
     const logout = async () => {
-        await fetch("http://localhost:3000/logout", {
+        await fetch(`${import.meta.env.VITE_BACKEND_URL}/logout`, {
             method: "POST",
             credentials: "include",
         });
@@ -42,14 +42,14 @@ export const AuthProvider = ({ children }) => {
 
             try {
                 if (currentUser?.email) {
-                    await fetch("http://localhost:3000/jwt", {
+                    await fetch(`${import.meta.env.VITE_BACKEND_URL}/jwt`, {
                         method: "POST",
                         headers: { "content-type": "application/json" },
                         credentials: "include",
                         body: JSON.stringify({ email: currentUser.email }),
                     });
                 } else {
-                    await fetch("http://localhost:3000/logout", {
+                    await fetch(`${import.meta.env.VITE_BACKEND_URL}/logout`, {
                         method: "POST",
                         credentials: "include",
                     });

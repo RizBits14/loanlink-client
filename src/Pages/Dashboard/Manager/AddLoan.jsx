@@ -26,7 +26,7 @@ const AddLoan = () => {
             createdBy: user.email,
         };
 
-        const res = await fetch("http://localhost:3000/loans", {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/loans`, {
             credentials: "include",
             method: "POST",
             headers: { "content-type": "application/json" },

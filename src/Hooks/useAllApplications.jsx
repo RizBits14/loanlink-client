@@ -5,8 +5,8 @@ const useAllApplications = (status) => {
         queryKey: ["loanApplications", status],
         queryFn: async () => {
             const url = status
-                ? `http://localhost:3000/loan-applications?status=${status}`
-                : `http://localhost:3000/loan-applications`;
+                ? `${import.meta.env.VITE_BACKEND_URL}/loan-applications?status=${status}`
+                : `${import.meta.env.VITE_BACKEND_URL}/loan-applications`;
 
             const res = await fetch(url, {
                 credentials: "include",

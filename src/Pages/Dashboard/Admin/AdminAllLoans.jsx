@@ -8,7 +8,7 @@ const AdminAllLoans = () => {
     const queryClient = useQueryClient();
 
     const toggleShowOnHome = async (id, currentValue) => {
-        await fetch(`http://localhost:3000/loans/${id}`, {
+        await fetch(`${import.meta.env.VITE_BACKEND_URL}/loans/${id}`, {
             credentials: "include",
             method: "PATCH",
             headers: { "content-type": "application/json" },
@@ -29,7 +29,7 @@ const AdminAllLoans = () => {
 
         if (!result.isConfirmed) return;
 
-        await fetch(`http://localhost:3000/loans/${id}`, {
+        await fetch(`${import.meta.env.VITE_BACKEND_URL}/loans/${id}`, {
             credentials: "include",
             method: "DELETE",
         });
@@ -117,7 +117,7 @@ ${Array.isArray(loan.emiPlans) ? loan.emiPlans.join("\n") : ""}
 
         if (!result.isConfirmed) return;
 
-        await fetch(`http://localhost:3000/loans/${loan._id}`, {
+        await fetch(`${import.meta.env.VITE_BACKEND_URL}/loans/${loan._id}`, {
             credentials: "include",
             method: "PATCH",
             headers: { "content-type": "application/json" },

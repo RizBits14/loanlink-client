@@ -23,7 +23,7 @@ export const Register = () => {
     };
 
     const saveUserToDB = async (userInfo) => {
-        await fetch("http://localhost:3000/users", {
+        await fetch(`${import.meta.env.VITE_BACKEND_URL}/users`, {
             method: "POST",
             headers: {
                 "content-type": "application/json",

@@ -13,7 +13,7 @@ const LoanDetails = () => {
     const { data: loan = {}, isLoading } = useQuery({
         queryKey: ["loan", id],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:3000/loans/${id}`);
+            const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/loans/${id}`);
             return res.json();
         },
     });

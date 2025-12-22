@@ -80,7 +80,7 @@ const PendingLoans = () => {
         if (!result.isConfirmed) return;
 
         await fetch(
-            `http://localhost:3000/loan-applications/${id}/approve`,
+            `${import.meta.env.VITE_BACKEND_URL}/loan-applications/${id}/approve`,
             { method: "PATCH", credentials: "include" }
         );
 
@@ -100,7 +100,7 @@ const PendingLoans = () => {
         if (!result.isConfirmed) return;
 
         await fetch(
-            `http://localhost:3000/loan-applications/${id}/reject`,
+            `${import.meta.env.VITE_BACKEND_URL}/loan-applications/${id}/reject`,
             { method: "PATCH" }
         );
 

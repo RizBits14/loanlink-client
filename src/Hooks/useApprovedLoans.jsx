@@ -6,7 +6,7 @@ const useApprovedLoans = () => {
         queryKey: ["approvedLoans"],
         queryFn: async () => {
             const res = await fetch(
-                "http://localhost:3000/loan-applications/approved", {
+                `${import.meta.env.VITE_BACKEND_URL}/loan-applications/approved`, {
                 credentials: "include",
             }
             );

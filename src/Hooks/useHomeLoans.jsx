@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 const fetchHomeLoans = async () => {
-    const res = await fetch("http://localhost:3000/loans?home=true&limit=6", {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/loans?home=true&limit=6`, {
         credentials: "include",
     })
     if (!res.ok) {

@@ -32,7 +32,7 @@ const ManageLoans = () => {
 
         if (!result.isConfirmed) return;
 
-        const res = await fetch(`http://localhost:3000/manager/loans/${loanId}`, {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/manager/loans/${loanId}`, {
             method: "DELETE",
             credentials: "include",
         });
@@ -125,7 +125,7 @@ const ManageLoans = () => {
 
         if (!result.isConfirmed) return;
 
-        const res = await fetch(`http://localhost:3000/manager/loans/${loan._id}`, {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/manager/loans/${loan._id}`, {
             method: "PATCH",
             credentials: "include",
             headers: { "content-type": "application/json" },

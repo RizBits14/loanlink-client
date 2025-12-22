@@ -10,7 +10,7 @@ const useMyLoans = () => {
         enabled: !!user?.email,
         queryFn: async () => {
             const res = await fetch(
-                "http://localhost:3000/loan-applications/me",
+                `${import.meta.env.VITE_BACKEND_URL}/loan-applications/me`,
                 { credentials: "include" }
             );
             if (!res.ok) throw new Error("Failed to fetch loans");

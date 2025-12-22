@@ -32,7 +32,7 @@ const ManageUsers = () => {
     };
 
     const patchUser = async (id, payload) => {
-        const res = await fetch(`http://localhost:3000/users/${id}`, {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/${id}`, {
             credentials: "include",
             method: "PATCH",
             headers: { "content-type": "application/json" },

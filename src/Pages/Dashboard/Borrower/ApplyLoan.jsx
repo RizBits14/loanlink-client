@@ -20,7 +20,7 @@ const ApplyLoan = () => {
         enabled: !!id,
         queryKey: ["loan", id],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:3000/loans/${id}`);
+            const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/loans/${id}`);
             return res.json();
         },
     });
@@ -29,7 +29,7 @@ const ApplyLoan = () => {
         enabled: isFromBanner,
         queryKey: ["allLoans"],
         queryFn: async () => {
-            const res = await fetch("http://localhost:3000/loans");
+            const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/loans`);
             return res.json();
         },
     });
@@ -97,7 +97,7 @@ const ApplyLoan = () => {
         };
 
         try {
-            const res = await fetch("http://localhost:3000/loan-applications", {
+            const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/loan-applications`, {
                 method: "POST",
                 headers: { "content-type": "application/json" },
                 credentials: "include",

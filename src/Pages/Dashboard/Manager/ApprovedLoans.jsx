@@ -20,7 +20,7 @@ const ApprovedLoans = () => {
         if (!result.isConfirmed) return;
 
         const res = await fetch(
-            `http://localhost:3000/loan-applications/${id}/cancel-approved`,
+            `${import.meta.env.VITE_BACKEND_URL}/loan-applications/${id}/cancel-approved`,
             {
                 method: "PATCH",
                 credentials: "include",

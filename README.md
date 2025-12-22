@@ -1,16 +1,55 @@
-# React + Vite
+# LoanLink
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+LoanLink is a role-based Loan Management System where borrowers can apply for loans, managers can approve/reject applications and manage their own loans, and admins can manage users and system loans. This repository contains the React frontend.
 
-Currently, two official plugins are available:
+## Purpose
+- Provide a clean UI for borrowers to browse loans and apply
+- Provide dashboards for Admin and Manager with secure access (JWT + role based)
+- Support Stripe fee payments for approved loan applications
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Live URL
+- Client: <YOUR_CLIENT_LIVE_URL>
+- Server API: <YOUR_SERVER_LIVE_URL>
 
-## React Compiler
+## Key Features
+- Firebase Authentication (Email/Password + Google)
+- JWT cookie-based authorization (httpOnly cookie)
+- Role-based dashboards:
+  - Borrower Dashboard: Apply loan, My Loans, Payment status
+  - Manager Dashboard: Add loan, Manage loans, Pending/Approved applications
+  - Admin Dashboard: Manage users, Loan Applications, All Loans, control “Show on Home”
+- Apply Loan:
+  - Dynamic loan selection from dropdown (if coming from banner)
+  - Auto shows interest rate & max limit from DB
+  - React Hook Form validation (amount max limit, 10 digit contact etc.)
+  - Summary confirmation modal before submit
+- Stripe Checkout Payment:
+  - Pay $10 fee after manager approves
+  - Paid badge shows full payment details modal
+- Smooth UI:
+  - Framer Motion animations
+  - Recharts graphs for overview dashboard (Admin / Manager / Borrower)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
+- React + Vite
+- Tailwind CSS + DaisyUI
+- TanStack Query (React Query)
+- Firebase Auth
+- SweetAlert2
+- Stripe Checkout (redirect flow)
+- Recharts
+- Framer Motion
+- React Hook Form
+- React Router DOM
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## NPM Packages Used
+- react
+- react-router-dom
+- @tanstack/react-query
+- firebase
+- sweetalert2
+- framer-motion
+- react-hook-form
+- recharts
+- tailwindcss
+- daisyui

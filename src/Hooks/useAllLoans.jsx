@@ -5,7 +5,7 @@ const useAllLoans = () => {
     return useQuery({
         queryKey: ["allLoans"],
         queryFn: async () => {
-            const res = await fetch("http://localhost:3000/loans", {
+            const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/loans`, {
                 credentials: "include",
             });
             if (!res.ok) throw new Error("Failed to fetch loans");

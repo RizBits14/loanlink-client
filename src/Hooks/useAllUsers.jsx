@@ -5,7 +5,7 @@ const useAllUsers = () => {
     return useQuery({
         queryKey: ["allUsers"],
         queryFn: async () => {
-            const res = await fetch("http://localhost:3000/users", {
+            const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users`, {
                 credentials: "include",
             });
             if (!res.ok) throw new Error("Failed to fetch users");
