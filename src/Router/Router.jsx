@@ -25,6 +25,7 @@ import ApprovedLoans from "../Pages/Dashboard/Manager/ApprovedLoans";
 import LoanApplications from "../Pages/Dashboard/Admin/LoanApplication";
 import ManageLoans from "../Pages/Dashboard/Manager/ManagerLoans";
 import Profile from "../Pages/Dashboard/Profile";
+import Error404Page from "../Pages/Error404Page";
 
 const router = createBrowserRouter([
     {
@@ -110,6 +111,10 @@ const router = createBrowserRouter([
                 )
             }
         ]
+    },
+    {
+        path: '/*',
+        Component: Error404Page
     }
 ]);
 
