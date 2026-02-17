@@ -1,9 +1,61 @@
-import React, { useState, useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import { motion as Motion, AnimatePresence } from "framer-motion";
+import { gsap } from "gsap";
+import {
+    Search,
+    Filter,
+    Users,
+    Shield,
+    UserCog,
+    User,
+    Mail,
+    BadgeCheck,
+    BadgeX,
+    Ban,
+    Pencil,
+    Power,
+    AlertTriangle,
+    X,
+} from "lucide-react";
 import useAllUsers from "../../../Hooks/useAllUsers";
 import { useQueryClient } from "@tanstack/react-query";
 import useAuth from "../../../Hooks/useAuth";
+
+const shellStyle = {
+    borderColor: "var(--border)",
+    backgroundColor: "color-mix(in oklab, var(--surface) 92%, transparent)",
+    boxShadow: "var(--card-shadow)",
+};
+
+const chipStyle = (tone = "neutral") => {
+    if (tone === "primary") return { backgroundColor: "color-mix(in oklab, var(--primary) 12%, transparent)", borderColor: "color-mix(in oklab, var(--primary) 22%, var(--border))" };
+    if (tone === "success") return { backgroundColor: "color-mix(in oklab, var(--success) 12%, transparent)", borderColor: "color-mix(in oklab, var(--success) 22%, var(--border))" };
+    if (tone === "danger") return { backgroundColor: "color-mix(in oklab, var(--danger) 12%, transparent)", borderColor: "color-mix(in oklab, var(--danger) 22%, var(--border))" };
+    if (tone === "warning") return { backgroundColor: "color-mix(in oklab, var(--warning) 12%, transparent)", borderColor: "color-mix(in oklab, var(--warning) 22%, var(--border))" };
+    return { backgroundColor: "color-mix(in oklab, var(--surface) 92%, transparent)", borderColor: "var(--border)" };
+};
+
+const roleMeta = (role) => {
+    const r = String(role || "").toLowerCase();
+    if (r === "admin") return { label: "Admin", icon: Shield, tone: "primary" };
+    if (r === "manager") return { label: "Manager", icon: UserCog, tone: "primary" };
+    return { label: "Borrower", icon: User, tone: "neutral" };
+};
+
+const statusMeta = (status) => {
+    const s = String(status || "").toLowerCase();
+    if (s === "active") return { label: "Active", icon: BadgeCheck, tone: "success" };
+    return { label: "Suspended", icon: Ban, tone: "danger" };
+};
+
+const initials = (nameOrEmail) => {
+    const s = String(nameOrEmail || "").trim();
+    if (!s) return "U";
+    const parts = s.split(/\s+/).filter(Boolean);
+    if (parts.length === 1) return parts[0][0]?.toUpperCase() || "U";
+    return `${parts[0][0] || ""}${parts[1][0] || ""}`.toUpperCase();
+};
 
 const ManageUsers = () => {
     const { user: authUser } = useAuth();
@@ -18,6 +70,30 @@ const ManageUsers = () => {
     const [search, setSearch] = useState("");
     const [filterRole, setFilterRole] = useState("");
     const [filterStatus, setFilterStatus] = useState("");
+
+    const wrapRef = useRef(null);
+
+    useEffect(() => {
+        const el = wrapRef.current;
+        if (!el) return;
+        const ctx = gsap.context(() => {
+            gsap.fromTo(
+                ".mu-reveal",
+                { opacity: 0, y: 14, filter: "blur(6px)" },
+                { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.85, ease: "power3.out", stagger: 0.06 }
+            );
+        }, wrapRef);
+        return () => ctx.revert();
+    }, []);
+
+    useEffect(() => {
+        if (!isOpen) return;
+        const prev = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        return () => {
+            document.body.style.overflow = prev;
+        };
+    }, [isOpen]);
 
     const openModal = (u) => {
         setSelectedUser(u);
@@ -50,18 +126,22 @@ const ManageUsers = () => {
         const result = await Swal.fire({
             title: "Suspend User",
             html: `
-        <div style="text-align:left;">
-          <label style="display:block;font-weight:600;margin-bottom:6px;">Suspend Reason</label>
-          <select id="swal-reason" class="swal2-input" style="width:100%;margin:0 0 12px 0;">
-            <option value="" selected disabled>Select a reason</option>
-            <option value="Policy violation">Policy violation</option>
-            <option value="Fraud suspicion">Fraud suspicion</option>
-            <option value="Spam / abuse">Spam / abuse</option>
-            <option value="Other">Other</option>
-          </select>
+        <div class="text-left space-y-3">
+          <div class="p-4 rounded-xl bg-base-200">
+            <p class="text-xs uppercase opacity-60">Reason</p>
+            <select id="swal-reason" class="swal2-input" style="width:100%;margin:8px 0 0 0;">
+              <option value="" selected disabled>Select a reason</option>
+              <option value="Policy violation">Policy violation</option>
+              <option value="Fraud suspicion">Fraud suspicion</option>
+              <option value="Spam / abuse">Spam / abuse</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
 
-          <label style="display:block;font-weight:600;margin-bottom:6px;">Why suspend (feedback)</label>
-          <textarea id="swal-feedback" class="swal2-textarea" placeholder="Write details..." style="margin:0;width:100%;"></textarea>
+          <div class="p-4 rounded-xl bg-base-200">
+            <p class="text-xs uppercase opacity-60">Feedback</p>
+            <textarea id="swal-feedback" class="swal2-textarea" placeholder="Write details..." style="margin:8px 0 0 0;width:100%;"></textarea>
+          </div>
         </div>
       `,
             icon: "warning",
@@ -81,6 +161,14 @@ const ManageUsers = () => {
                     return;
                 }
                 return { suspendReason: reason, suspendFeedback: feedback };
+            },
+            didOpen: () => {
+                const popup = Swal.getPopup();
+                if (!popup) return;
+                popup.style.border = "1px solid var(--border)";
+                popup.style.background = "color-mix(in oklab, var(--surface) 96%, transparent)";
+                popup.style.boxShadow = "var(--card-shadow)";
+                popup.style.borderRadius = "18px";
             },
         });
 
@@ -121,6 +209,14 @@ const ManageUsers = () => {
             showCancelButton: true,
             confirmButtonText: "Activate",
             confirmButtonColor: "#22c55e",
+            didOpen: () => {
+                const popup = Swal.getPopup();
+                if (!popup) return;
+                popup.style.border = "1px solid var(--border)";
+                popup.style.background = "color-mix(in oklab, var(--surface) 96%, transparent)";
+                popup.style.boxShadow = "var(--card-shadow)";
+                popup.style.borderRadius = "18px";
+            },
         });
 
         if (!result.isConfirmed) return;
@@ -143,6 +239,14 @@ const ManageUsers = () => {
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: "Yes, update",
+            didOpen: () => {
+                const popup = Swal.getPopup();
+                if (!popup) return;
+                popup.style.border = "1px solid var(--border)";
+                popup.style.background = "color-mix(in oklab, var(--surface) 96%, transparent)";
+                popup.style.boxShadow = "var(--card-shadow)";
+                popup.style.borderRadius = "18px";
+            },
         });
 
         if (!result.isConfirmed) return;
@@ -170,221 +274,568 @@ const ManageUsers = () => {
         }
     };
 
-    const isChanged =
-        !!selectedUser &&
-        (role !== selectedUser.role || status !== selectedUser.status);
+    const isChanged = !!selectedUser && (role !== selectedUser.role || status !== selectedUser.status);
 
     const filteredUsers = useMemo(() => {
+        const q = search.trim().toLowerCase();
         return users
-            .filter((u) =>
-                (u.name || "").toLowerCase().includes(search.toLowerCase()) ||
-                (u.email || "").toLowerCase().includes(search.toLowerCase())
-            )
+            .filter((u) => {
+                if (!q) return true;
+                const n = (u.name || "").toLowerCase();
+                const e = (u.email || "").toLowerCase();
+                return n.includes(q) || e.includes(q);
+            })
             .filter((u) => (filterRole ? u.role === filterRole : true))
             .filter((u) => (filterStatus ? u.status === filterStatus : true));
     }, [users, search, filterRole, filterStatus]);
 
+    const totals = useMemo(() => {
+        const t = { all: users.length, active: 0, suspended: 0 };
+        for (const u of users) {
+            const s = String(u.status || "").toLowerCase();
+            if (s === "active") t.active += 1;
+            if (s === "suspended") t.suspended += 1;
+        }
+        return t;
+    }, [users]);
+
     if (isLoading) {
-        return <div className="py-20 text-center">Loading...</div>;
+        return (
+            <div className="py-20 text-center" style={{ color: "var(--muted)" }}>
+                Loading...
+            </div>
+        );
     }
 
     return (
-        <div>
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-                <h1 className="text-2xl md:text-3xl font-bold">Manage Users</h1>
-                <span className="badge badge-primary badge-lg">{users.length} Users</span>
+        <div
+            ref={wrapRef}
+            className="space-y-6"
+            style={{
+                background:
+                    "radial-gradient(900px 420px at 12% 8%, color-mix(in oklab, var(--secondary) 14%, transparent), transparent 60%), radial-gradient(900px 520px at 92% 18%, color-mix(in oklab, var(--primary) 14%, transparent), transparent 58%), transparent",
+            }}
+        >
+            <div className="mu-reveal flex flex-col lg:flex-row gap-4 lg:items-end lg:justify-between">
+                <div>
+                    <h1 className="text-2xl md:text-3xl font-bold tracking-tight" style={{ color: "var(--text)" }}>
+                        Manage Users
+                    </h1>
+                    <p className="mt-1" style={{ color: "var(--muted)" }}>
+                        Search, filter, and manage roles and account access.
+                    </p>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                    <span className="inline-flex items-center gap-2 rounded-2xl border px-3 py-2 text-sm font-semibold" style={{ ...chipStyle("primary"), color: "var(--text)" }}>
+                        <Users size={16} style={{ color: "var(--primary)" }} />
+                        Total: {totals.all}
+                    </span>
+                    <span className="inline-flex items-center gap-2 rounded-2xl border px-3 py-2 text-sm font-semibold" style={{ ...chipStyle("success"), color: "var(--text)" }}>
+                        <BadgeCheck size={16} style={{ color: "var(--success)" }} />
+                        Active: {totals.active}
+                    </span>
+                    <span className="inline-flex items-center gap-2 rounded-2xl border px-3 py-2 text-sm font-semibold" style={{ ...chipStyle("danger"), color: "var(--text)" }}>
+                        <Ban size={16} style={{ color: "var(--danger)" }} />
+                        Suspended: {totals.suspended}
+                    </span>
+                </div>
             </div>
 
-            <div className="flex flex-col md:flex-row md:items-center gap-4 mb-4">
-                <input
-                    type="text"
-                    placeholder="Search by name or email..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="input input-bordered w-full md:w-1/3"
-                />
+            <div className="mu-reveal grid grid-cols-1 lg:grid-cols-12 gap-3">
+                <div className="lg:col-span-6">
+                    <div className="flex items-center gap-2 rounded-2xl border px-3 h-12" style={shellStyle}>
+                        <Search size={18} style={{ color: "var(--muted)" }} />
+                        <input
+                            className="w-full bg-transparent outline-none text-sm"
+                            placeholder="Search by name or email..."
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            style={{ color: "var(--text)" }}
+                        />
+                    </div>
+                </div>
 
-                <select
-                    value={filterRole}
-                    onChange={(e) => setFilterRole(e.target.value)}
-                    className="select select-bordered w-full md:w-1/6"
-                >
-                    <option value="">All Roles</option>
-                    <option value="borrower">Borrower</option>
-                    <option value="manager">Manager</option>
-                    <option value="admin">Admin</option>
-                </select>
+                <div className="lg:col-span-3">
+                    <div className="flex items-center gap-2 rounded-2xl border px-3 h-12" style={shellStyle}>
+                        <Filter size={18} style={{ color: "var(--muted)" }} />
+                        <select
+                            value={filterRole}
+                            onChange={(e) => setFilterRole(e.target.value)}
+                            className="w-full text-sm rounded-xl px-3 py-2 border"
+                            style={{
+                                color: "var(--text)",
+                                backgroundColor: "var(--surface)",
+                                borderColor: "var(--border)",
+                            }}
+                        >
+                            <option value="" style={{ background: "var(--surface)", color: "var(--text)" }}>
+                                All Roles
+                            </option>
+                            <option value="borrower" style={{ background: "var(--surface)", color: "var(--text)" }}>
+                                Borrower
+                            </option>
+                            <option value="manager" style={{ background: "var(--surface)", color: "var(--text)" }}>
+                                Manager
+                            </option>
+                            <option value="admin" style={{ background: "var(--surface)", color: "var(--text)" }}>
+                                Admin
+                            </option>
+                        </select>
+                    </div>
+                </div>
 
-                <select
-                    value={filterStatus}
-                    onChange={(e) => setFilterStatus(e.target.value)}
-                    className="select select-bordered w-full md:w-1/6"
-                >
-                    <option value="">All Status</option>
-                    <option value="active">Active</option>
-                    <option value="suspended">Suspended</option>
-                </select>
+                <div className="lg:col-span-3">
+                    <div className="flex items-center gap-2 rounded-2xl border px-3 h-12" style={shellStyle}>
+                        <Filter size={18} style={{ color: "var(--muted)" }} />
+                        <select
+                            value={filterStatus}
+                            onChange={(e) => setFilterStatus(e.target.value)}
+                            className="w-full text-sm rounded-xl px-3 py-2 border outline-none appearance-none cursor-pointer"
+                            style={{
+                                color: "var(--text)",
+                                backgroundColor: "var(--surface)",
+                                borderColor: "var(--border)",
+                            }}
+                        >
+                            <option
+                                value=""
+                                style={{ background: "var(--surface)", color: "var(--text)" }}
+                            >
+                                All Status
+                            </option>
+
+                            <option
+                                value="active"
+                                style={{ background: "var(--surface)", color: "var(--text)" }}
+                            >
+                                Active
+                            </option>
+
+                            <option
+                                value="suspended"
+                                style={{ background: "var(--surface)", color: "var(--text)" }}
+                            >
+                                Suspended
+                            </option>
+                        </select>
+
+                    </div>
+                </div>
             </div>
 
-            <div className="overflow-x-auto bg-base-100 rounded-xl shadow">
-                <table className="table w-full">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Status</th>
-                            <th className="text-right">Action</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {filteredUsers.length === 0 ? (
+            <div className="mu-reveal rounded-3xl border overflow-hidden" style={shellStyle}>
+                <div className="overflow-x-auto">
+                    <table className="table w-full min-w-262.5">
+                        <thead
+                            style={{
+                                backgroundColor: "color-mix(in oklab, var(--surface) 88%, transparent)",
+                                color: "var(--text)",
+                            }}
+                        >
                             <tr>
-                                <td colSpan={5} className="text-center py-4 opacity-70">
-                                    No users found.
-                                </td>
+                                <th className="font-semibold">User</th>
+                                <th className="font-semibold">Role</th>
+                                <th className="font-semibold">Status</th>
+                                <th className="font-semibold text-right">Actions</th>
                             </tr>
-                        ) : (
-                            filteredUsers.map((u) => {
-                                const isSelf = u?.email?.toLowerCase() === authUser?.email?.toLowerCase();
-                                const isAdmin = (u.role || "").toLowerCase() === "admin";
+                        </thead>
 
-                                return (
-                                    <tr key={u._id}>
-                                        <td>{u.name || "N/A"}</td>
-                                        <td>{u.email}</td>
-                                        <td className="capitalize">{u.role}</td>
-                                        <td>
-                                            <span className={`badge ${u.status === "active" ? "badge-success" : "badge-error"}`}>
-                                                {u.status}
-                                            </span>
-                                        </td>
+                        <tbody>
+                            {filteredUsers.length === 0 ? (
+                                <tr>
+                                    <td colSpan={4} className="text-center py-10" style={{ color: "var(--muted)" }}>
+                                        No users found.
+                                    </td>
+                                </tr>
+                            ) : (
+                                filteredUsers.map((u, idx) => {
+                                    const isSelf = u?.email?.toLowerCase() === authUser?.email?.toLowerCase();
+                                    const isAdmin = (u.role || "").toLowerCase() === "admin";
 
-                                        <td className="text-right space-x-2">
-                                            <button
-                                                onClick={() => openModal(u)}
-                                                className="btn btn-sm btn-outline bg-accent text-black mb-2"
-                                            >
-                                                Update
-                                            </button>
+                                    const r = roleMeta(u.role);
+                                    const s = statusMeta(u.status);
+                                    const RoleIcon = r.icon;
+                                    const StatusIcon = s.icon;
 
-                                            {u.status === "active" ? (
-                                                <button
-                                                    onClick={() => handleSuspend(u)}
-                                                    disabled={isSelf || isAdmin}
-                                                    className="btn btn-sm btn-error btn-outline"
-                                                    title={
-                                                        isSelf
-                                                            ? "You cannot suspend yourself"
-                                                            : isAdmin
-                                                                ? "You cannot suspend an admin"
-                                                                : "Suspend user"
-                                                    }
+                                    return (
+                                        <Motion.tr
+                                            key={u._id}
+                                            initial={{ opacity: 0, y: 8 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ duration: 0.25, ease: "easeOut", delay: Math.min(idx * 0.015, 0.2) }}
+                                            className="group"
+                                        >
+                                            <td className="whitespace-nowrap">
+                                                <div className="min-w-130">
+                                                    <div className="flex items-center gap-3">
+                                                        <div
+                                                            className="grid h-11 w-11 place-items-center rounded-2xl border font-bold"
+                                                            style={{
+                                                                borderColor: "var(--border)",
+                                                                backgroundColor: "color-mix(in oklab, var(--primary) 10%, transparent)",
+                                                                color: "var(--text)",
+                                                            }}
+                                                        >
+                                                            {initials(u.name || u.email)}
+                                                        </div>
+
+                                                        <div className="min-w-0">
+                                                            <p className="font-bold truncate" style={{ color: "var(--text)" }}>
+                                                                {u.name || "Unnamed User"}
+                                                                {isSelf ? (
+                                                                    <span
+                                                                        className="ml-2 inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-semibold align-middle"
+                                                                        style={{ ...chipStyle("warning"), color: "var(--text)" }}
+                                                                    >
+                                                                        <AlertTriangle size={12} style={{ color: "var(--warning)" }} />
+                                                                        You
+                                                                    </span>
+                                                                ) : null}
+                                                            </p>
+                                                            <p className="text-sm truncate" style={{ color: "var(--muted)" }}>
+                                                                <span className="inline-flex items-center gap-2">
+                                                                    <Mail size={14} style={{ color: "var(--muted)" }} />
+                                                                    {u.email || "—"}
+                                                                </span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                            <td className="whitespace-nowrap">
+                                                <span
+                                                    className="inline-flex items-center gap-2 rounded-full border px-3 py-2 text-sm font-semibold capitalize"
+                                                    style={{ ...chipStyle(r.tone), color: "var(--text)" }}
                                                 >
-                                                    Suspend
-                                                </button>
-                                            ) : (
-                                                <button
-                                                    onClick={() => handleActivate(u)}
-                                                    className="btn btn-sm btn-success btn-outline"
+                                                    <RoleIcon size={16} style={{ color: "var(--primary)" }} />
+                                                    {r.label}
+                                                </span>
+                                            </td>
+
+                                            <td className="whitespace-nowrap">
+                                                <span
+                                                    className="inline-flex items-center gap-2 rounded-full border px-3 py-2 text-sm font-semibold capitalize"
+                                                    style={{ ...chipStyle(s.tone), color: "var(--text)" }}
                                                 >
-                                                    Activate
-                                                </button>
-                                            )}
-                                        </td>
-                                    </tr>
-                                );
-                            })
-                        )}
-                    </tbody>
-                </table>
+                                                    <StatusIcon size={16} style={{ color: s.tone === "success" ? "var(--success)" : "var(--danger)" }} />
+                                                    {s.label}
+                                                </span>
+                                            </td>
+
+                                            <td className="text-right whitespace-nowrap">
+                                                <div className="inline-flex items-center gap-2">
+                                                    <Motion.button
+                                                        whileHover={{ y: -2 }}
+                                                        whileTap={{ scale: 0.98 }}
+                                                        onClick={() => openModal(u)}
+                                                        className="h-10 px-3 rounded-2xl text-sm font-semibold border cursor-pointer"
+                                                        style={{
+                                                            borderColor: "var(--border)",
+                                                            backgroundColor: "color-mix(in oklab, var(--surface) 92%, transparent)",
+                                                            color: "var(--text)",
+                                                        }}
+                                                    >
+                                                        <span className="inline-flex items-center gap-2">
+                                                            <Pencil size={16} style={{ color: "var(--muted)" }} />
+                                                            Update
+                                                        </span>
+                                                    </Motion.button>
+
+                                                    {String(u.status || "").toLowerCase() === "active" ? (
+                                                        <Motion.button
+                                                            whileHover={{ y: -2 }}
+                                                            whileTap={{ scale: 0.98 }}
+                                                            onClick={() => handleSuspend(u)}
+                                                            disabled={isSelf || isAdmin}
+                                                            className="h-10 px-3 rounded-2xl text-sm font-semibold border disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                                                            title={
+                                                                isSelf
+                                                                    ? "You cannot suspend yourself"
+                                                                    : isAdmin
+                                                                        ? "You cannot suspend an admin"
+                                                                        : "Suspend user"
+                                                            }
+                                                            style={{
+                                                                borderColor: "color-mix(in oklab, var(--danger) 24%, var(--border))",
+                                                                backgroundColor: "color-mix(in oklab, var(--danger) 10%, transparent)",
+                                                                color: "var(--text)",
+                                                            }}
+                                                        >
+                                                            <span className="inline-flex items-center gap-2">
+                                                                <Ban size={16} style={{ color: "var(--danger)" }} />
+                                                                Suspend
+                                                            </span>
+                                                        </Motion.button>
+                                                    ) : (
+                                                        <Motion.button
+                                                            whileHover={{ y: -2 }}
+                                                            whileTap={{ scale: 0.98 }}
+                                                            onClick={() => handleActivate(u)}
+                                                            className="h-10 px-3 rounded-2xl text-sm font-semibold border"
+                                                            style={{
+                                                                borderColor: "color-mix(in oklab, var(--success) 24%, var(--border))",
+                                                                backgroundColor: "color-mix(in oklab, var(--success) 10%, transparent)",
+                                                                color: "var(--text)",
+                                                            }}
+                                                        >
+                                                            <span className="inline-flex items-center gap-2">
+                                                                <Power size={16} style={{ color: "var(--success)" }} />
+                                                                Activate
+                                                            </span>
+                                                        </Motion.button>
+                                                    )}
+                                                </div>
+                                            </td>
+                                        </Motion.tr>
+                                    );
+                                })
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-5 py-4 border-t"
+                    style={{
+                        borderColor: "var(--border)",
+                        backgroundColor: "color-mix(in oklab, var(--surface) 88%, transparent)",
+                    }}
+                >
+                    <p className="text-sm" style={{ color: "var(--muted)" }}>
+                        Tip: Filter by role + status for faster admin actions.
+                    </p>
+                    <span className="text-xs font-semibold tracking-wider uppercase" style={{ color: "var(--muted)" }}>
+                        Showing: {filteredUsers.length} / {users.length}
+                    </span>
+                </div>
             </div>
 
             <AnimatePresence>
-                {isOpen && selectedUser && (
+                {isOpen && selectedUser ? (
                     <Motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+                        className="fixed inset-0 z-50 grid place-items-center p-4"
+                        style={{
+                            backgroundColor: "color-mix(in oklab, #000 55%, transparent)",
+                            backdropFilter: "blur(10px)",
+                        }}
+                        onMouseDown={(e) => {
+                            if (e.target === e.currentTarget) closeModal();
+                        }}
                     >
                         <Motion.div
-                            initial={{ scale: 0.9, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.9, opacity: 0 }}
-                            transition={{ duration: 0.2 }}
-                            className="w-full max-w-2xl bg-base-100 rounded-2xl shadow-2xl overflow-hidden"
+                            initial={{ opacity: 0, y: 18, scale: 0.985 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 10, scale: 0.985 }}
+                            transition={{ duration: 0.22, ease: "easeOut" }}
+                            className="w-full max-w-2xl overflow-hidden rounded-3xl border"
+                            style={shellStyle}
                         >
-                            <div className="px-6 py-5 border-b bg-linear-to-r from-primary/10 to-secondary/10">
-                                <h3 className="text-xl font-semibold">Update User</h3>
-                                <p className="text-sm opacity-70">Manage role and access</p>
+                            <div
+                                className="px-6 py-5 border-b flex items-center justify-between gap-4"
+                                style={{
+                                    borderColor: "var(--border)",
+                                    background:
+                                        "linear-gradient(135deg, color-mix(in oklab, var(--primary) 14%, transparent), color-mix(in oklab, var(--secondary) 12%, transparent))",
+                                }}
+                            >
+                                <div>
+                                    <h3 className="text-xl font-semibold" style={{ color: "var(--text)" }}>
+                                        Update User
+                                    </h3>
+                                    <p className="text-sm" style={{ color: "var(--muted)" }}>
+                                        Manage role and account access.
+                                    </p>
+                                </div>
+
+                                <Motion.button
+                                    whileHover={{ scale: 1.04 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    onClick={closeModal}
+                                    className="grid h-10 w-10 place-items-center rounded-2xl border"
+                                    style={{
+                                        borderColor: "var(--border)",
+                                        backgroundColor: "color-mix(in oklab, var(--surface) 92%, transparent)",
+                                        color: "var(--text)",
+                                    }}
+                                    aria-label="Close"
+                                >
+                                    <X size={18} />
+                                </Motion.button>
                             </div>
 
-                            <div className="px-6 py-5 flex items-center gap-4 border-b">
-                                <div className="w-14 h-14 rounded-full bg-primary text-primary-content flex items-center justify-center text-xl font-bold">
-                                    {(selectedUser.name || selectedUser.email).charAt(0).toUpperCase()}
-                                </div>
-                                <div className="flex-1">
-                                    <h4 className="font-semibold text-lg">
-                                        {selectedUser.name || "Unnamed User"}
-                                    </h4>
-                                    <p className="text-sm opacity-70">{selectedUser.email}</p>
-                                    <div className="flex gap-2 mt-2">
-                                        <span className="badge badge-outline capitalize">{selectedUser.role}</span>
-                                        <span className={`badge ${selectedUser.status === "active" ? "badge-success" : "badge-error"}`}>
-                                            {selectedUser.status}
-                                        </span>
+                            <div className="px-6 py-5 border-b" style={{ borderColor: "var(--border)" }}>
+                                <div className="flex items-center gap-4">
+                                    <div
+                                        className="grid h-14 w-14 place-items-center rounded-3xl border text-lg font-extrabold"
+                                        style={{
+                                            borderColor: "var(--border)",
+                                            backgroundColor: "color-mix(in oklab, var(--primary) 12%, transparent)",
+                                            color: "var(--text)",
+                                        }}
+                                    >
+                                        {initials(selectedUser.name || selectedUser.email)}
+                                    </div>
+
+                                    <div className="min-w-0 flex-1">
+                                        <h4 className="font-semibold text-lg truncate" style={{ color: "var(--text)" }}>
+                                            {selectedUser.name || "Unnamed User"}
+                                        </h4>
+                                        <p className="text-sm truncate" style={{ color: "var(--muted)" }}>
+                                            {selectedUser.email}
+                                        </p>
+
+                                        <div className="mt-3 flex flex-wrap items-center gap-2">
+                                            {(() => {
+                                                const r = roleMeta(selectedUser.role);
+                                                const s = statusMeta(selectedUser.status);
+                                                const RI = r.icon;
+                                                const SI = s.icon;
+                                                return (
+                                                    <>
+                                                        <span className="inline-flex items-center gap-2 rounded-full border px-3 py-2 text-sm font-semibold" style={{ ...chipStyle(r.tone), color: "var(--text)" }}>
+                                                            <RI size={16} style={{ color: "var(--primary)" }} />
+                                                            {r.label}
+                                                        </span>
+                                                        <span className="inline-flex items-center gap-2 rounded-full border px-3 py-2 text-sm font-semibold" style={{ ...chipStyle(s.tone), color: "var(--text)" }}>
+                                                            <SI size={16} style={{ color: s.tone === "success" ? "var(--success)" : "var(--danger)" }} />
+                                                            {s.label}
+                                                        </span>
+                                                    </>
+                                                );
+                                            })()}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="px-6 py-6 grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="label font-medium">User Role</label>
-                                    <select
-                                        className="select select-bordered w-full"
-                                        value={role}
-                                        onChange={(e) => setRole(e.target.value)}
-                                    >
-                                        <option value="borrower">Borrower</option>
-                                        <option value="manager">Manager</option>
-                                        <option value="admin">Admin</option>
-                                    </select>
+                                    <label className="text-sm font-semibold" style={{ color: "var(--text)" }}>
+                                        User Role
+                                    </label>
+                                    <div className="mt-2 rounded-2xl border px-3 h-12 flex items-center" style={shellStyle}>
+                                        <select
+                                            value={role}
+                                            onChange={(e) => setRole(e.target.value)}
+                                            className="w-full text-sm capitalize rounded-xl px-3 py-2 border outline-none appearance-none cursor-pointer"
+                                            style={{
+                                                color: "var(--text)",
+                                                backgroundColor: "var(--surface)",
+                                                borderColor: "var(--border)",
+                                            }}
+                                        >
+                                            <option
+                                                value="borrower"
+                                                style={{ background: "var(--surface)", color: "var(--text)" }}
+                                            >
+                                                Borrower
+                                            </option>
+
+                                            <option
+                                                value="manager"
+                                                style={{ background: "var(--surface)", color: "var(--text)" }}
+                                            >
+                                                Manager
+                                            </option>
+
+                                            <option
+                                                value="admin"
+                                                style={{ background: "var(--surface)", color: "var(--text)" }}
+                                            >
+                                                Admin
+                                            </option>
+                                        </select>
+
+                                    </div>
+                                    <p className="mt-2 text-xs" style={{ color: "var(--muted)" }}>
+                                        Choose a role aligned with platform permissions.
+                                    </p>
                                 </div>
 
                                 <div>
-                                    <label className="label font-medium">Account Status</label>
-                                    <select
-                                        className="select select-bordered w-full"
-                                        value={status}
-                                        onChange={(e) => setStatus(e.target.value)}
-                                    >
-                                        <option value="active">Active</option>
-                                        <option value="suspended">Suspended</option>
-                                    </select>
+                                    <label className="text-sm font-semibold" style={{ color: "var(--text)" }}>
+                                        Account Status
+                                    </label>
+                                    <div className="mt-2 rounded-2xl border px-3 h-12 flex items-center" style={shellStyle}>
+                                        <select
+                                            value={status}
+                                            onChange={(e) => setStatus(e.target.value)}
+                                            className="w-full text-sm capitalize rounded-xl px-3 py-2 border outline-none appearance-none cursor-pointer"
+                                            style={{
+                                                color: "var(--text)",
+                                                backgroundColor: "var(--surface)",
+                                                borderColor: "var(--border)",
+                                            }}
+                                        >
+                                            <option
+                                                value="active"
+                                                style={{ background: "var(--surface)", color: "var(--text)" }}
+                                            >
+                                                Active
+                                            </option>
 
-                                    <p className="text-xs opacity-70 mt-2">
-                                        If you select <b>suspended</b>, you will be asked for reason & feedback.
+                                            <option
+                                                value="suspended"
+                                                style={{ background: "var(--surface)", color: "var(--text)" }}
+                                            >
+                                                Suspend
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <p className="mt-2 text-xs" style={{ color: "var(--muted)" }}>
+                                        If selecting <b>suspended</b>, you’ll be asked for a reason & feedback.
                                     </p>
                                 </div>
                             </div>
 
-                            <div className="px-6 py-4 border-t flex justify-end gap-3">
-                                <button onClick={closeModal} className="btn btn-ghost">
-                                    Cancel
-                                </button>
-                                <button
-                                    onClick={handleUpdate}
-                                    disabled={!isChanged}
-                                    className="btn btn-primary"
-                                >
-                                    Save Changes
-                                </button>
+                            <div className="px-6 py-4 border-t flex items-center justify-between gap-3" style={{ borderColor: "var(--border)" }}>
+                                <div className="text-xs sm:text-sm" style={{ color: "var(--muted)" }}>
+                                    Changes:{" "}
+                                    <span className="font-semibold" style={{ color: "var(--text)" }}>
+                                        {isChanged ? "Pending" : "None"}
+                                    </span>
+                                </div>
+
+                                <div className="flex items-center gap-2">
+                                    <Motion.button
+                                        whileHover={{ y: -2 }}
+                                        whileTap={{ scale: 0.98 }}
+                                        onClick={closeModal}
+                                        className="h-11 px-4 rounded-2xl text-sm font-semibold border"
+                                        style={{
+                                            borderColor: "var(--border)",
+                                            backgroundColor: "color-mix(in oklab, var(--surface) 92%, transparent)",
+                                            color: "var(--text)",
+                                        }}
+                                    >
+                                        Cancel
+                                    </Motion.button>
+
+                                    <Motion.button
+                                        whileHover={{ y: -2 }}
+                                        whileTap={{ scale: 0.98 }}
+                                        onClick={handleUpdate}
+                                        disabled={!isChanged}
+                                        className="h-11 px-4 rounded-2xl text-sm font-semibold border disabled:opacity-50 disabled:cursor-not-allowed"
+                                        style={{
+                                            borderColor: "color-mix(in oklab, var(--primary) 22%, var(--border))",
+                                            background:
+                                                "linear-gradient(135deg, color-mix(in oklab, var(--primary) 22%, transparent), color-mix(in oklab, var(--secondary) 18%, transparent))",
+                                            color: "var(--text)",
+                                        }}
+                                    >
+                                        Save Changes
+                                    </Motion.button>
+                                </div>
                             </div>
                         </Motion.div>
                     </Motion.div>
-                )}
+                ) : null}
             </AnimatePresence>
         </div>
     );
