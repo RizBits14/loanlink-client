@@ -14,7 +14,6 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <GlobalLoader></GlobalLoader>
         <RouterProvider router={router} />
       </AuthProvider>
     </QueryClientProvider>
