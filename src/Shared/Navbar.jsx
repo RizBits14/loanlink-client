@@ -89,10 +89,9 @@ const Navbar = () => {
   };
 
   const navLinkClass = (path) =>
-    `relative px-1 py-2 transition-colors duration-300 ${
-      location.pathname === path
-        ? "text-[var(--primary)] font-semibold"
-        : "text-base hover:text-[var(--primary-soft)]"
+    `relative px-1 py-2 transition-colors duration-300 ${location.pathname === path
+      ? "text-[var(--primary)] font-semibold"
+      : "text-base hover:text-[var(--primary-soft)]"
     }`;
 
   return (
@@ -110,7 +109,7 @@ const Navbar = () => {
             whileHover={{ rotate: 8, scale: 1.05 }}
             transition={{ type: "spring", stiffness: 320, damping: 18 }}
           />
-          <span className="text-2xl font-bold tracking-wide bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] bg-clip-text text-transparent">
+          <span className="text-2xl font-bold tracking-wide bg-linear-to-r from-(--primary) to-(--secondary) bg-clip-text text-transparent">
             LoanLink
           </span>
         </Link>
@@ -156,13 +155,13 @@ const Navbar = () => {
             <>
               <NavLink
                 to="/login"
-                className="px-5 py-2 rounded-xl border border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white transition-all duration-300"
+                className="px-5 py-2 rounded-xl border border-(--primary) text-(--primary) hover:bg-(--primary) hover:text-white transition-all duration-300"
               >
                 Login
               </NavLink>
               <NavLink
                 to="/register"
-                className="px-5 py-2 rounded-xl bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
+                className="px-5 py-2 rounded-xl bg-linear-to-r from-(--primary) to-(--secondary) text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
               >
                 Register
               </NavLink>
@@ -180,7 +179,7 @@ const Navbar = () => {
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
                 onClick={handleLogout}
-                className="px-5 py-2 rounded-xl bg-[var(--danger)] text-white shadow-md hover:shadow-lg transition-all duration-300"
+                className="px-5 py-2 rounded-xl bg-(--danger) text-white shadow-md hover:shadow-lg transition-all duration-300"
               >
                 Logout
               </Motion.button>
@@ -191,7 +190,7 @@ const Navbar = () => {
         <Motion.button
           whileTap={{ scale: 0.9 }}
           onClick={() => setMenuOpen((v) => !v)}
-          className="lg:hidden text-3xl text-base"
+          className="lg:hidden text-base"
           aria-label="Toggle menu"
         >
           {menuOpen ? <FiX /> : <FiMenu />}
@@ -259,14 +258,14 @@ const Navbar = () => {
                     <NavLink
                       to="/login"
                       onClick={closeMenu}
-                      className="w-full px-5 py-2 rounded-xl border border-[var(--primary)] text-[var(--primary)] text-center"
+                      className="w-full px-5 py-2 rounded-xl border border-(--primary) text-(--primary) text-center"
                     >
                       Login
                     </NavLink>
                     <NavLink
                       to="/register"
                       onClick={closeMenu}
-                      className="w-full px-5 py-2 rounded-xl bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] text-white text-center"
+                      className="w-full px-5 py-2 rounded-xl bg-linear-to-r from-(--primary) to-(--secondary) text-white text-center"
                     >
                       Register
                     </NavLink>
@@ -274,7 +273,7 @@ const Navbar = () => {
                 ) : (
                   <button
                     onClick={handleLogout}
-                    className="w-full px-5 py-2 rounded-xl bg-[var(--danger)] text-white"
+                    className="w-full px-5 py-2 rounded-xl bg-(--danger) text-white"
                   >
                     Logout
                   </button>
