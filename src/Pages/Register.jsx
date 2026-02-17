@@ -244,6 +244,7 @@ export const Register = () => {
                                     <label className="text-sm font-semibold" style={{ color: "var(--text)" }}>
                                         Photo URL
                                     </label>
+                                    <p className="text-xs">Example: https://cdn-icons-png.flaticon.com/128/1326/1326377.png</p>
                                     <div
                                         className="flex items-center gap-3 rounded-2xl border px-4 py-3 transition-all"
                                         style={{
@@ -280,15 +281,24 @@ export const Register = () => {
                                         <Shield size={18} style={{ color: "var(--muted)" }} />
                                         <select
                                             className="w-full bg-transparent outline-none text-sm"
-                                            style={{ color: "var(--text)" }}
+                                            style={{
+                                                color: "var(--text)",
+                                                backgroundColor: "transparent",
+                                            }}
                                             defaultValue=""
                                             {...register("role", { required: "Role required" })}
                                         >
-                                            <option value="" disabled>
+                                            <option value="" disabled style={{ color: "#9ca3af" }}>
                                                 Select role
                                             </option>
-                                            <option value="borrower">Borrower</option>
-                                            <option value="manager">Manager</option>
+
+                                            <option value="borrower" style={{ color: "#000" }}>
+                                                Borrower
+                                            </option>
+
+                                            <option value="manager" style={{ color: "#000" }}>
+                                                Manager
+                                            </option>
                                         </select>
                                     </div>
                                     {errors.role && (
@@ -334,7 +344,7 @@ export const Register = () => {
                                     whileHover={{ y: -2 }}
                                     whileTap={{ scale: 0.98 }}
                                     type="submit"
-                                    className="w-full rounded-2xl px-5 py-3 font-semibold flex items-center justify-center gap-2"
+                                    className="w-full rounded-2xl px-5 py-3 font-semibold flex items-center justify-center gap-2 cursor-pointer"
                                     style={{
                                         background: "linear-gradient(135deg, var(--primary), var(--secondary))",
                                         color: "white",
@@ -358,7 +368,7 @@ export const Register = () => {
                                 whileHover={{ y: -2 }}
                                 whileTap={{ scale: 0.98 }}
                                 onClick={handleGoogle}
-                                className="w-full rounded-2xl px-5 py-3 font-semibold flex items-center justify-center gap-3 border"
+                                className="w-full rounded-2xl px-5 py-3 font-semibold flex items-center justify-center gap-3 border cursor-pointer"
                                 style={{
                                     borderColor: "var(--border)",
                                     backgroundColor: "color-mix(in oklab, var(--surface) 92%, transparent)",
