@@ -133,53 +133,134 @@ const MyLoans = () => {
       if (!res.ok) throw new Error(data?.message || "Failed to load payment info");
 
       const p = data.paymentInfo || {};
+      const paidAtLabel = data.paidAt ? new Date(data.paidAt).toLocaleString() : "—";
+      const amountLabel = `$${(p.amount ?? 10)} ${(p.currency || "usd").toUpperCase()}`;
 
       Swal.fire({
         title: "Payment Details",
         width: "90%",
         html: `
-          <div class="space-y-3 text-base-content">
-            <div class="p-4 rounded-xl bg-base-200">
-              <p class="text-xs uppercase opacity-60">Payment Status</p>
-              <p class="font-semibold text-lg">Paid</p>
-              <p class="text-sm opacity-70">${data.paidAt ? new Date(data.paidAt).toLocaleString() : "—"}</p>
+        <div class="text-left text-base-content">
+
+          <div
+            class="rounded-3xl border overflow-hidden"
+            style="
+              border-color: var(--border);
+              background-color: color-mix(in oklab, var(--surface) 92%, transparent);
+              box-shadow: var(--card-shadow);
+            "
+          >
+  
+            <div
+              class="p-5 sm:p-6"
+              style="background-color: color-mix(in oklab, var(--surface) 86%, transparent);"
+            >
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <p class="text-xs font-semibold tracking-wider uppercase" style="color: var(--muted)">
+                    Payment
+                  </p>
+                  <p class="mt-1 text-xl sm:text-2xl font-extrabold tracking-tight" style="color: var(--text)">
+                    Payment received
+                  </p>
+                  <p class="mt-1 text-sm" style="color: var(--muted)">${paidAtLabel}</p>
+                </div>
+
+                <span
+                  class="inline-flex items-center gap-2 rounded-2xl border px-3 py-1.5 text-xs font-bold"
+                  style="
+                    border-color: var(--border);
+                    background-color: color-mix(in oklab, var(--success) 14%, transparent);
+                    color: var(--success);
+                  "
+                >
+                  <span class="h-1.5 w-1.5 rounded-full" style="background-color: var(--success)"></span>
+                  Paid
+                </span>
+              </div>
+
+              <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div
+                  class="rounded-2xl border p-4"
+                  style="border-color: var(--border); background-color: color-mix(in oklab, var(--surface) 92%, transparent);"
+                >
+                  <p class="text-xs font-semibold tracking-wider uppercase" style="color: var(--muted)">Amount</p>
+                  <p class="mt-1 font-bold" style="color: var(--text)">${amountLabel}</p>
+                </div>
+
+                <div
+                  class="rounded-2xl border p-4"
+                  style="border-color: var(--border); background-color: color-mix(in oklab, var(--surface) 92%, transparent);"
+                >
+                  <p class="text-xs font-semibold tracking-wider uppercase" style="color: var(--muted)">Provider</p>
+                  <p class="mt-1 font-bold capitalize" style="color: var(--text)">${p.provider || "stripe"}</p>
+                </div>
+              </div>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div class="p-4 rounded-xl bg-base-100 border">
-                <p class="text-xs uppercase opacity-60">Email</p>
-                <p class="font-medium break-all">${p.email || data.userEmail || "—"}</p>
-              </div>
-              <div class="p-4 rounded-xl bg-base-100 border">
-                <p class="text-xs uppercase opacity-60">Transaction ID</p>
-                <p class="font-medium break-all">${p.transactionId || "—"}</p>
-              </div>
-              <div class="p-4 rounded-xl bg-base-100 border">
-                <p class="text-xs uppercase opacity-60">Application ID</p>
-                <p class="font-medium break-all">${data._id || "—"}</p>
-              </div>
-              <div class="p-4 rounded-xl bg-base-100 border">
-                <p class="text-xs uppercase opacity-60">Loan ID</p>
-                <p class="font-medium break-all">${p.loanId || data.loanId || "—"}</p>
-              </div>
-              <div class="p-4 rounded-xl bg-base-100 border">
-                <p class="text-xs uppercase opacity-60">Loan Title</p>
-                <p class="font-medium">${p.loanTitle || data.loanTitle || "—"}</p>
-              </div>
-              <div class="p-4 rounded-xl bg-base-100 border">
-                <p class="text-xs uppercase opacity-60">Amount</p>
-                <p class="font-medium">$${p.amount ?? 10} ${(p.currency || "usd").toUpperCase()}</p>
-              </div>
-              <div class="p-4 rounded-xl bg-base-100 border sm:col-span-2">
-                <p class="text-xs uppercase opacity-60">Provider</p>
-                <p class="font-medium capitalize">${p.provider || "stripe"}</p>
-                ${p.sessionId ? `<p class="text-sm opacity-70 break-all">Session: ${p.sessionId}</p>` : ""}
+
+  
+            <div class="p-5 sm:p-6 pt-0 sm:pt-0">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div
+                  class="rounded-2xl border p-4"
+                  style="border-color: var(--border); background-color: color-mix(in oklab, var(--surface) 92%, transparent);"
+                >
+                  <p class="text-xs font-semibold tracking-wider uppercase" style="color: var(--muted)">Email</p>
+                  <p class="mt-1 font-medium break-all" style="color: var(--text)">${p.email || data.userEmail || "—"}</p>
+                </div>
+
+                <div
+                  class="rounded-2xl border p-4"
+                  style="border-color: var(--border); background-color: color-mix(in oklab, var(--surface) 92%, transparent);"
+                >
+                  <p class="text-xs font-semibold tracking-wider uppercase" style="color: var(--muted)">Transaction ID</p>
+                  <p class="mt-1 font-medium break-all" style="color: var(--text)">${p.transactionId || "—"}</p>
+                </div>
+
+                <div
+                  class="rounded-2xl border p-4"
+                  style="border-color: var(--border); background-color: color-mix(in oklab, var(--surface) 92%, transparent);"
+                >
+                  <p class="text-xs font-semibold tracking-wider uppercase" style="color: var(--muted)">Application ID</p>
+                  <p class="mt-1 font-medium break-all" style="color: var(--text)">${data._id || "—"}</p>
+                </div>
+
+                <div
+                  class="rounded-2xl border p-4"
+                  style="border-color: var(--border); background-color: color-mix(in oklab, var(--surface) 92%, transparent);"
+                >
+                  <p class="text-xs font-semibold tracking-wider uppercase" style="color: var(--muted)">Loan ID</p>
+                  <p class="mt-1 font-medium break-all" style="color: var(--text)">${p.loanId || data.loanId || "—"}</p>
+                </div>
+
+                <div
+                  class="rounded-2xl border p-4 sm:col-span-2"
+                  style="border-color: var(--border); background-color: color-mix(in oklab, var(--surface) 92%, transparent);"
+                >
+                  <p class="text-xs font-semibold tracking-wider uppercase" style="color: var(--muted)">Loan Title</p>
+                  <p class="mt-1 font-medium" style="color: var(--text)">${p.loanTitle || data.loanTitle || "—"}</p>
+                </div>
+
+                ${p.sessionId
+            ? `
+                      <div
+                        class="rounded-2xl border p-4 sm:col-span-2"
+                        style="border-color: var(--border); background-color: color-mix(in oklab, var(--surface) 92%, transparent);"
+                      >
+                        <p class="text-xs font-semibold tracking-wider uppercase" style="color: var(--muted)">Session</p>
+                        <p class="mt-1 font-medium break-all" style="color: var(--text)">${p.sessionId}</p>
+                      </div>
+                    `
+            : ""
+          }
               </div>
             </div>
           </div>
-        `,
+        </div>
+      `,
         showCloseButton: true,
         showConfirmButton: false,
-        customClass: { popup: "rounded-2xl" },
+        customClass: { popup: "rounded-3xl", htmlContainer: "text-left" },
       });
     } catch (err) {
       Swal.fire("Error", err.message, "error");
@@ -187,51 +268,123 @@ const MyLoans = () => {
   };
 
   const handleView = (loan) => {
+    const tone = badgeTone(loan.status);
+    const feePaid = loan.feeStatus === "paid";
+    const feeBg = feePaid
+      ? "color-mix(in oklab, var(--success) 14%, transparent)"
+      : "color-mix(in oklab, var(--muted) 10%, transparent)";
+    const feeColor = feePaid ? "var(--success)" : "var(--muted)";
+    const feeDot = feePaid ? "var(--success)" : "var(--muted)";
+
     Swal.fire({
       title: "Loan Details",
       width: "90%",
       html: `
-        <div class="space-y-4 text-base-content">
-          <div class="p-4 bg-base-200 rounded-xl shadow-sm">
-            <p class="text-sm uppercase opacity-60">Loan Title</p>
-            <p class="font-semibold text-lg">${loan.loanTitle}</p>
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div class="p-4 bg-base-100 rounded-xl shadow-sm border">
-              <p class="text-xs uppercase opacity-60">Loan Amount</p>
-              <p class="font-semibold text-primary">$${loan.amount}</p>
+      <div class="text-left text-base-content">
+        <div
+          class="rounded-3xl border overflow-hidden"
+          style="
+            border-color: var(--border);
+            background-color: color-mix(in oklab, var(--surface) 92%, transparent);
+            box-shadow: var(--card-shadow);
+          "
+        >
+
+          <div
+            class="p-5 sm:p-6"
+            style="background-color: color-mix(in oklab, var(--surface) 86%, transparent);"
+          >
+            <p class="text-xs font-semibold tracking-wider uppercase" style="color: var(--muted)">
+              Loan
+            </p>
+
+            <div class="mt-1 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <p class="text-xl sm:text-2xl font-extrabold tracking-tight" style="color: var(--text)">
+                ${loan.loanTitle}
+              </p>
+
+              <div class="flex flex-wrap items-center gap-2">
+      
+                <span
+                  class="inline-flex items-center gap-2 rounded-2xl border px-3 py-1.5 text-xs font-bold capitalize"
+                  style="
+                    border-color: var(--border);
+                    background-color: ${tone.soft};
+                    color: ${tone.bg};
+                  "
+                >
+                  <span class="h-1.5 w-1.5 rounded-full" style="background-color: ${tone.bg}"></span>
+                  ${loan.status}
+                </span>
+
+      
+                <span
+                  class="inline-flex items-center gap-2 rounded-2xl border px-3 py-1.5 text-xs font-bold"
+                  style="
+                    border-color: var(--border);
+                    background-color: ${feeBg};
+                    color: ${feeColor};
+                  "
+                >
+                  <span class="h-1.5 w-1.5 rounded-full" style="background-color: ${feeDot}"></span>
+                  Fee ${feePaid ? "Paid" : "Unpaid"}
+                </span>
+              </div>
             </div>
-            <div class="p-4 bg-base-100 rounded-xl shadow-sm border">
-              <p class="text-xs uppercase opacity-60">Status</p>
-              <span class="badge ${loan.status === "approved"
-          ? "badge-success"
-          : loan.status === "rejected"
-            ? "badge-error"
-            : loan.status === "cancelled"
-              ? "badge-neutral"
-              : "badge-warning"}">
-                ${loan.status}
-              </span>
+
+            <div class="mt-4 rounded-2xl border p-4"
+              style="border-color: var(--border); background-color: color-mix(in oklab, var(--surface) 92%, transparent);"
+            >
+              <p class="text-xs font-semibold tracking-wider uppercase" style="color: var(--muted)">Loan Amount</p>
+              <p class="mt-1 text-2xl font-extrabold tracking-tight" style="color: var(--text)">
+                ${money(loan.amount)}
+              </p>
             </div>
           </div>
-          <div class="p-4 bg-base-200 rounded-xl shadow-sm">
-            <p class="text-xs uppercase opacity-60">Application Fee</p>
-            <p class="font-semibold">${loan.feeStatus === "paid" ? "Paid" : "Unpaid"}</p>
-            ${loan.feeStatus === "paid"
-          ? `<p class="text-sm opacity-70">${loan.paidAt ? new Date(loan.paidAt).toLocaleDateString() : "—"}</p>`
-          : ""}
-          </div>
-          <div class="p-4 bg-base-200 rounded-xl shadow-sm">
-            <p class="text-xs uppercase opacity-60">Application ID</p>
-            <p class="text-sm break-all">${loan._id}</p>
+
+
+          <div class="p-5 sm:p-6 pt-0 sm:pt-0">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div
+                class="rounded-2xl border p-4"
+                style="border-color: var(--border); background-color: color-mix(in oklab, var(--surface) 92%, transparent);"
+              >
+                <p class="text-xs font-semibold tracking-wider uppercase" style="color: var(--muted)">Application Fee</p>
+                <p class="mt-1 font-bold" style="color: var(--text)">${feePaid ? "Paid" : "Unpaid"}</p>
+                ${feePaid
+          ? `<p class="mt-1 text-sm" style="color: var(--muted)">${loan.paidAt ? new Date(loan.paidAt).toLocaleString() : "—"
+          }</p>`
+          : `<p class="mt-1 text-sm" style="color: var(--muted)">Pay after approval to proceed.</p>`
+        }
+              </div>
+
+              <div
+                class="rounded-2xl border p-4"
+                style="border-color: var(--border); background-color: color-mix(in oklab, var(--surface) 92%, transparent);"
+              >
+                <p class="text-xs font-semibold tracking-wider uppercase" style="color: var(--muted)">Short ID</p>
+                <p class="mt-1 font-bold" style="color: var(--text)">…${loan._id?.slice(-6) || "—"}</p>
+                <p class="mt-1 text-sm" style="color: var(--muted)">Use this when contacting support.</p>
+              </div>
+
+              <div
+                class="rounded-2xl border p-4 sm:col-span-2"
+                style="border-color: var(--border); background-color: color-mix(in oklab, var(--surface) 92%, transparent);"
+              >
+                <p class="text-xs font-semibold tracking-wider uppercase" style="color: var(--muted)">Application ID</p>
+                <p class="mt-1 font-medium break-all" style="color: var(--text)">${loan._id || "—"}</p>
+              </div>
+            </div>
           </div>
         </div>
-      `,
+      </div>
+    `,
       showCloseButton: true,
       showConfirmButton: false,
-      customClass: { popup: "rounded-2xl" },
+      customClass: { popup: "rounded-3xl", htmlContainer: "text-left" },
     });
   };
+
 
   const totals = useMemo(() => {
     const total = loans.length;
@@ -350,7 +503,7 @@ const MyLoans = () => {
                       }}
                     >
                       <td>
-                        <div className="min-w-[220px]">
+                        <div className="min-w-55">
                           <p className="font-semibold" style={{ color: "var(--text)" }}>
                             {loan.loanTitle}
                           </p>
