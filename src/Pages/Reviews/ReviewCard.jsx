@@ -2,14 +2,9 @@ import { motion as Motion } from "framer-motion";
 import { FaStar, FaRegStar, FaQuoteLeft } from "react-icons/fa";
 
 const ReviewCard = ({ review }) => {
-    const { userName, user_photoURL, ratings, review: reviewText, date } = review;
+    const { userName, user_photoURL, ratings, review: reviewText } = review;
 
     const roundedRating = Math.round(ratings);
-    const formattedDate = new Date(date).toLocaleDateString(undefined, {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-    });
 
     return (
         <Motion.div
@@ -35,7 +30,6 @@ const ReviewCard = ({ review }) => {
 
                 <div className="min-w-0">
                     <h4 className="truncate text-base font-semibold">{userName}</h4>
-                    <p className="mt-0.5 text-xs text-base-content/60">{formattedDate}</p>
                 </div>
 
                 <div className="ml-auto flex items-center gap-2">

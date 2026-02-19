@@ -120,7 +120,7 @@ const Home = () => {
               alt="LoanLink Banner"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/40" />
+            <div className="absolute inset-0 bg-linear-to-r from-black/80 via-black/60 to-black/40" />
           </Motion.div>
         </AnimatePresence>
 
@@ -141,7 +141,7 @@ const Home = () => {
             <div className="mt-8 flex gap-4">
               <NavLink
                 to="/apply-loan"
-                className="px-8 py-3 rounded-xl bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] text-white font-semibold shadow-xl hover:shadow-2xl transition-all duration-300"
+                className="px-8 py-3 rounded-xl bg-linear-to-r from-(--primary) to-(--secondary) text-white font-semibold shadow-xl hover:shadow-2xl transition-all duration-300"
               >
                 Apply For Loan
               </NavLink>
@@ -152,7 +152,7 @@ const Home = () => {
 
       <section className="reveal-section max-w-7xl mx-auto px-6">
         <h2 className="text-3xl font-bold text-center mb-12">
-          Our <span className="text-[var(--primary)]">Statistics</span>
+          Our <span className="text-(--primary)">Statistics</span>
         </h2>
         <Stats />
       </section>
@@ -165,7 +165,7 @@ const Home = () => {
           viewport={{ once: true }}
           className="text-3xl font-bold text-center mb-16"
         >
-          Available <span className="text-[var(--primary)]">Loan Programs</span>
+          Available <span className="text-(--primary)">Loan Programs</span>
         </Motion.h2>
 
         <Motion.div
@@ -189,7 +189,7 @@ const Home = () => {
                 key={loan._id}
                 variants={fadeUp}
                 whileHover={{ y: -10 }}
-                className="card-modern p-8 flex flex-col min-h-[420px]"
+                className="card-modern p-8 flex flex-col min-h-105"
               >
                 <img
                   src={loan.images?.[0]}
@@ -204,7 +204,7 @@ const Home = () => {
                 </p>
                 <p className="text-sm font-medium mb-6">
                   Max Loan:{" "}
-                  <span className="text-[var(--primary)] font-semibold">
+                  <span className="text-(--primary) font-semibold">
                     ${loan.maxLoanLimit}
                   </span>
                 </p>
@@ -227,7 +227,7 @@ const Home = () => {
           viewport={{ once: true }}
           className="text-3xl font-bold text-center mb-16"
         >
-          How <span className="text-[var(--primary)]">LoanLink Works</span>
+          How <span className="text-(--primary)">LoanLink Works</span>
         </Motion.h2>
 
         <Motion.div
@@ -272,7 +272,7 @@ const Home = () => {
           viewport={{ once: true }}
           className="text-3xl font-bold text-center mb-16"
         >
-          Why <span className="text-[var(--primary)]">Choose</span> LoanLink
+          Why <span className="text-(--primary)">Choose</span> LoanLink
         </Motion.h2>
 
         <Motion.div
@@ -307,7 +307,7 @@ const Home = () => {
         </Motion.div>
       </section>
 
-      <section className="bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] text-white">
+      <section className="bg-linear-to-r from-(--primary) to-(--secondary) text-white">
         <div className="max-w-7xl mx-auto px-6 py-24 grid md:grid-cols-2 gap-16 items-center">
           <Motion.img
             src={apply1}
@@ -333,7 +333,7 @@ const Home = () => {
             </p>
             <NavLink
               to="/apply-loan"
-              className="px-8 py-3 rounded-xl bg-white text-[var(--primary)] font-semibold shadow-xl hover:shadow-2xl transition-all duration-300"
+              className="px-8 py-3 rounded-xl bg-white text-(--primary) font-semibold shadow-xl hover:shadow-2xl transition-all duration-300"
             >
               Apply Now
             </NavLink>
