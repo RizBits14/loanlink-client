@@ -573,7 +573,7 @@ const ManageUsers = () => {
                                                             whileHover={{ y: -2 }}
                                                             whileTap={{ scale: 0.98 }}
                                                             onClick={() => handleActivate(u)}
-                                                            className="h-10 px-3 rounded-2xl text-sm font-semibold border"
+                                                            className="h-10 px-3 rounded-2xl text-sm font-semibold border cursor-pointer"
                                                             style={{
                                                                 borderColor: "color-mix(in oklab, var(--success) 24%, var(--border))",
                                                                 backgroundColor: "color-mix(in oklab, var(--success) 10%, transparent)",
